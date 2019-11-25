@@ -2,6 +2,9 @@
 // Program: STATA 
 // Author: Eric Hernandez-Montenegro
 
+*-------------------------------------------------------------------------------
+* This Do-File 
+
 // Load Demographic Data
 fdause https://wwwn.cdc.gov/Nchs/Nhanes/2015-2016/DEMO_I.XPT, clear
 
@@ -174,6 +177,40 @@ drop if alcohol == .
 // Generate day of survey
 generate survey_day = 1
 
+// Standardize Food Data
+egen std_energy = std(energy)
+egen std_protein = std(protein)
+egen std_carbohydrate = std(carbohydrate)
+egen std_sugars = std(sugars)
+egen std_fiber = std(fiber)
+egen std_fat = std(fat)
+egen std_ve = std(ve)
+egen std_va = std(va)
+egen std_vc = std(vc)
+egen std_calcium = std(calcium)
+egen std_iron = std(iron)
+egen std_zinc = std(zinc)
+egen std_sodium = std(sodium)
+egen std_alcohol = std(alcohol)
+
+// Replace Food variables with their standardized versions
+replace energy = std_energy
+replace protein = std_protein
+replace carbohydrate = std_carbohydrate
+replace sugars = std_sugars
+replace fiber = std_fiber
+replace fat = std_fat
+replace ve = std_ve
+replace va = std_va
+replace vc = std_vc
+replace calcium = std_calcium
+replace iron = std_iron
+replace zinc = std_zinc
+replace sodium = std_sodium
+replace alcohol = std_alcohol
+
+drop std*
+
 // Recreate weight variable
 replace weight1 = weight2 if survey_day == 2
 rename weight1 weight
@@ -233,6 +270,41 @@ drop if alcohol == .
 // Generate survey day 
 generate survey_day = 2
 
+// Standardize food variables
+egen std_energy = std(energy)
+egen std_protein = std(protein)
+egen std_carbohydrate = std(carbohydrate)
+egen std_sugars = std(sugars)
+egen std_fiber = std(fiber)
+egen std_fat = std(fat)
+egen std_ve = std(ve)
+egen std_va = std(va)
+egen std_vc = std(vc)
+egen std_calcium = std(calcium)
+egen std_iron = std(iron)
+egen std_zinc = std(zinc)
+egen std_sodium = std(sodium)
+egen std_alcohol = std(alcohol)
+
+// Replace Food variables with their standardized versions
+replace energy = std_energy
+replace protein = std_protein
+replace carbohydrate = std_carbohydrate
+replace sugars = std_sugars
+replace fiber = std_fiber
+replace fat = std_fat
+replace ve = std_ve
+replace va = std_va
+replace vc = std_vc
+replace calcium = std_calcium
+replace iron = std_iron
+replace zinc = std_zinc
+replace sodium = std_sodium
+replace alcohol = std_alcohol
+
+drop std*
+
+
 // Recreate weight variable
 replace weight1 = weight2 if survey_day == 2
 rename weight1 weight
@@ -265,52 +337,7 @@ drop _merge
 // Order Data
 order id survey_day weight diabetes insurance1 insurance2 gender age income
 
-// Standardize food variables
-egen std_energy = std(energy)
-*egen energy1 = mean(energy)
-*egen energy2 = sd(energy)
-*gen energy_ = energy - energy1
-*gen energy_1 = energy_/energy2
-egen std_protein = std(protein)
-egen std_carbohydrate = std(carbohydrate)
-egen std_sugars = std(sugars)
-egen std_fiber = std(fiber)
-egen std_fat = std(fat)
-egen std_ve = std(ve)
-egen std_va = std(va)
-egen std_vc = std(vc)
-egen std_calcium = std(calcium)
-egen std_iron = std(iron)
-egen std_zinc = std(zinc)
-egen std_sodium = std(sodium)
-egen std_alcohol = std(alcohol)
-
-
-// Replace Food variables with their standardized versions
-replace energy = std_energy
-replace protein = std_protein
-replace carbohydrate = std_carbohydrate
-replace sugars = std_sugars
-replace fiber = std_fiber
-replace fat = std_fat
-replace ve = std_ve
-replace va = std_va
-replace vc = std_vc
-replace calcium = std_calcium
-replace iron = std_iron
-replace zinc = std_zinc
-replace sodium = std_sodium
-replace alcohol = std_alcohol
-
-drop std*
-
 save main_data, replace
 
 export delimited main_data_csv_eric_stata.csv, replace
 
-
-* -----------------------------------------------------------------------------
-
-// Use lasso to select dietary variables for model
-lasso logit
-cvplot
