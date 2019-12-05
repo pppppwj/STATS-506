@@ -1,4 +1,5 @@
 Stats 506 Group 1 Project Proposal
+
 Weijie Pan
 Jingxian Chen
 Eric Hernandez-Montenegro
