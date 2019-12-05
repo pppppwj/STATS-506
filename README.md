@@ -5,6 +5,7 @@ Jingxian Chen
 Eric Hernandez-Montenegro
 
 Question
+
 Do people’s eating habits have the same effect on their diabetes status with or without insurance?
 
 Data
