@@ -1,66 +1,66 @@
-Stats 506 Group 1 Project Proposal
+# Stats 506 Group 1 Project Proposal
 
-Weijie Pan
-Jingxian Chen
+Weijie Pan,
+Jingxian Chen,
 Eric Hernandez-Montenegro
 
 Question
 
-Do people’s eating habits have the same effect on their diabetes status with or without insurance?
+`Do people’s eating habits have the same effect on their diabetes status with or without insurance?`
 
 Data
-2015-2016 Demographic Variables and Sample Weights
+2015-2016 Demographic Variables and Sample Weights  
 Variables: 
-SEQN - Respondent sequence number, 
-RIAGENDR - Gender, 
-RIDAGEYR - Age (in years), 
-INDFMIN2  - Annual Family Income
-2015-2016 Health Insurance 
-Variables: 
-SEQN - Respondent sequence number, 
-HIQ011 - Covered by health insurance
-2015-2016 Diabetes
-Variables:
-SEQN - Respondent sequence number,
-DIQ010 - Doctor told you have diabetes
-2015-2016 Dietary Interview - Total Nutrient Intakes, First Day
-2015-2016 Dietary Interview - Total Nutrient Intakes, Second Day
-Variables: 
-WTDRD1 - Dietary day one sample weight
-WTDR2D - Dietary two-day sample weight
-DR1TIRON - Iron
-DR1TCALC - Calcium
-DR1TZINC - Zinc
-DR1TSODI - Sodium
-DR1TATOC - Vitamin E
-DR1TVARA - Vitamin A
-DR1TALCO - Alcohol
-DR1TVC - Vitamin C
-DR1TTFAT - Total fat
-DR1TFIBE - Dietary fiber
-DR1TSUGR - Total sugars
-DR1TCARB - Carbohydrate
-DR1TKCAL - Energy
-DR1TPROT - Protein
+SEQN - Respondent sequence number  
+RIAGENDR - Gender  
+RIDAGEYR - Age (in years)  
+INDFMIN2  - Annual Family Income    
+2015-2016 Health Insurance     
+Variables:   
+SEQN - Respondent sequence number   
+HIQ011 - Covered by health insurance  
+2015-2016 Diabetes  
+Variables:  
+SEQN - Respondent sequence number  
+DIQ010 - Doctor told you have diabetes  
+2015-2016 Dietary Interview - Total Nutrient Intakes, First Day  
+2015-2016 Dietary Interview - Total Nutrient Intakes, Second Day  
+Variables:  
+WTDRD1 - Dietary day one sample weight  
+WTDR2D - Dietary two-day sample weight  
+DR1TIRON - Iron  
+DR1TCALC - Calcium  
+DR1TZINC - Zinc  
+DR1TSODI - Sodium  
+DR1TATOC - Vitamin E  
+DR1TVARA - Vitamin A  
+DR1TALCO - Alcohol  
+DR1TVC - Vitamin C  
+DR1TTFAT - Total fat  
+DR1TFIBE - Dietary fiber  
+DR1TSUGR - Total sugars  
+DR1TCARB - Carbohydrate  
+DR1TKCAL - Energy  
+DR1TPROT - Protein  
 
-Analytic Modeling Techniques
-In order to consider the effect from the insurance, we build the logistic regression model adding interactive terms between insurance and variables in the total Intakes dataset. 
-Use Lasso penalty in the model to select variables from the Dietary Interview.  
-Use the cross-validation method to choose the best penalty parameter of our model. 
-Because we have samples without diabetes weight more than samples with one, we choose to use the AUC value as our model performance measurement. Then plot the ROC curve to display the performance of the model. Give a conclusion on whether the eating habits have the same effect on these two groups of people.  
-Model with insurance interaction term: 
-Where: insurance is 0 or 1. X are the variables that we choose in the total nutrient intake dataset.
-Consider formula like this: 
-(1) B1 * X + B2 * insurance * X
-So, we will use (B1 + B2) as the margin effect coefficients on people with insurance, and use B1 coefficient as the effect on people without insurance; 
-
-
-Software/Programming to Be Use
-Python, R, and Stata
+Analytic Modeling Techniques  
+In order to consider the effect from the insurance, we build the logistic regression model adding interactive terms between insurance and variables in the total Intakes dataset.   
+Use Lasso penalty in the model to select variables from the Dietary Interview.    
+Use the cross-validation method to choose the best penalty parameter of our model.   
+Because we have samples without diabetes weight more than samples with one, we choose to use the AUC value as our model performance measurement. Then plot the ROC curve to display the performance of the model. Give a conclusion on whether the eating habits have the same effect on these two groups of people.    
+Model with insurance interaction term:   
+Where: insurance is 0 or 1. X are the variables that we choose in the total nutrient intake dataset.  
+Consider formula like this:   
+(1) B1 * X + B2 * insurance * X  
+So, we will use (B1 + B2) as the margin effect coefficients on people with insurance, and use B1 coefficient as the effect on people without insurance;   
 
 
+Software/Programming to Be Use  
+Python, R, and Stata  
 
-Outline of our project
+
+
+Outline of our project  
 1.	Data preprocessing part:
 (1)	Select variables from each of the dataset mentioned above and combine all the dataset together.
 (2)	First to remove observations with missing values; 
