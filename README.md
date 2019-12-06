@@ -10,7 +10,7 @@ Question
 
 Data
 2015-2016 Demographic Variables and Sample Weights  
-Variables: 
+Variables:  
 SEQN - Respondent sequence number  
 RIAGENDR - Gender  
 RIDAGEYR - Age (in years)  
