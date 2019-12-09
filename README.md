@@ -8,39 +8,51 @@ Question
 
 `Do people’s eating habits have the same effect on their diabetes status with or without health insurance?`
 
-Data : `2015-2016 Demographic Variables and Sample Weights` [Link](https://wwwn.cdc.gov/nchs/nhanes/search/datapage.aspx?Component=Demographics&CycleBeginYear=2015)   
-Variables:  
-SEQN - Respondent sequence number  
-RIAGENDR - Gender  
-RIDAGEYR - Age (in years)  
-INDFMIN2  - Annual Family Income    
-2015-2016 Health Insurance     
-Variables:   
-SEQN - Respondent sequence number   
-HIQ011 - Covered by health insurance  
-2015-2016 Diabetes  
-Variables:  
-SEQN - Respondent sequence number  
-DIQ010 - Doctor told you have diabetes  
-2015-2016 Dietary Interview - Total Nutrient Intakes, First Day  
-2015-2016 Dietary Interview - Total Nutrient Intakes, Second Day  
-Variables:  
-WTDRD1 - Dietary day one sample weight  
-WTDR2D - Dietary two-day sample weight  
-DR1TIRON - Iron  
-DR1TCALC - Calcium  
-DR1TZINC - Zinc  
-DR1TSODI - Sodium  
-DR1TATOC - Vitamin E  
-DR1TVARA - Vitamin A  
-DR1TALCO - Alcohol  
-DR1TVC - Vitamin C  
-DR1TTFAT - Total fat  
-DR1TFIBE - Dietary fiber  
-DR1TSUGR - Total sugars  
-DR1TCARB - Carbohydrate  
-DR1TKCAL - Energy  
-DR1TPROT - Protein  
+Data : `2015-2016 Demographic Variables and Sample Weights` [\<Link\>](https://wwwn.cdc.gov/nchs/nhanes/search/datapage.aspx?Component=Demographics&CycleBeginYear=2015)   
+
+| Variables Name   |Variable Description     |
+| ------------- |:-------------:|
+| SEQN       | Respondent sequence number  |
+| RIAGENDR     | Age (in years)     |
+| INDFMIN2 | Annual Family Income      |
+   
+Data : `2015-2016 Health Insurance` [\<Link\>](https://wwwn.cdc.gov/nchs/nhanes/Search/DataPage.aspx?Component=Questionnaire&CycleBeginYear=2015)   
+
+| Variables Name   |Variable Description     |
+| ------------- |:-------------:|
+| SEQN       | Respondent sequence number  |
+| HIQ011    | Covered by health insurance     |
+
+Data : `2015-2016 Diabetes` [\<Link\>](https://wwwn.cdc.gov/nchs/nhanes/Search/DataPage.aspx?Component=Questionnaire&CycleBeginYear=2015）
+
+| Variables Name   |Variable Description     |
+| ------------- |:-------------:|
+| SEQN       | Respondent sequence number  |
+| DIQ010    | Doctor told you have diabetes     |
+
+
+Data:`2015-2016 Dietary Interview - Total Nutrient Intakes, First Day `    
+     `2015-2016 Dietary Interview - Total Nutrient Intakes, Second Day` [\<Link\>](https://wwwn.cdc.gov/nchs/nhanes/Search/DataPage.aspx?Component=Dietary&CycleBeginYear=2015)
+     
+| Variables Name   |Variable Description     |
+| ------------- |:-------------:|
+| SEQN       | Respondent sequence number  |
+| WTDRD1   | Dietary day one sample weight     |
+|WTDR2D | Dietary two-day sample weight | 
+|DR1TIRON | Iron  |
+|DR1TCALC | Calcium  |
+|DR1TZINC | Zinc | 
+|DR1TSODI | Sodium | 
+|DR1TATOC | Vitamin E  |
+|DR1TVARA | Vitamin A  |
+|DR1TALCO | Alcohol  |
+|DR1TVC | Vitamin C | 
+|DR1TTFAT | Total fat  |
+|DR1TFIBE | Dietary fiber|  
+|DR1TSUGR | Total sugars  |
+|DR1TCARB | Carbohydrate | 
+|DR1TKCAL | Energy  |
+|DR1TPROT | Protein  |
 
 Analytic Modeling Techniques  
 In order to consider the effect from the insurance, we build the logistic regression model adding interactive terms between insurance and variables in the total Intakes dataset.   
