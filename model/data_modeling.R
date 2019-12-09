@@ -5,13 +5,14 @@
 # Date: Dec 7th, 2019
 ################################################################################
 ## load data
-source("C:/Users/95260/Desktop/data_preprocessing.R")
+source("D:/Files/stats506/group_project/data_preprocessing.R")
 
 ### Modeling part
 library(doParallel)
+library(glmnet)
 
 ## setup parallel computing parameter
-ncores=2   
+ncores=4   
 
 # set up a cluster called 'cl'
 cl = makeCluster(ncores)
@@ -21,7 +22,7 @@ registerDoParallel(cl)
 
 
 # set the number of testset partition times
-N_test <- 10
+N_test <- 50
 
 # delete the insurance variable and add interactive term with intake variables
 times_insur <- function(x) x * Data_final$insurance
@@ -92,20 +93,24 @@ result = foreach(i = 1:N_test) %dopar% {
 #t2
 
 # building final model for all of our data 
-result <- matrix(unlist(result1), ncol = N_test, nrow = 2)
+result <- matrix(unlist(result), ncol = N_test, nrow = 2)
 x_all <- model.matrix(diabetes~., Data_final)[, -1]
 y_all <- Data_final$diabetes
 
 # choose the mean value of the optimal lambdas above as the final optimal lambda
 # for our final model
-lambda_final <- rowSums(result)[1]
+lambda_final <- rowMeans(result)[1]
 model <- glmnet(x_all, y_all, family = "binomial", alpha = 1, lambda = lambda_final)
 
 # the coefficients of the final model
 beta_all <- coef(model)
 
 # estimation of the final model performance using the average AUC value above
-AUC_final <- rowSums(result)[2]
+AUC_final <- rowMeans(result)[2]
 
 
 stopCluster(cl)
+
+
+
+
