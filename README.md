@@ -1,12 +1,12 @@
 # Stats 506 Group 1 Project Proposal
 
-Weijie Pan,
-Jingxian Chen,
-Eric Hernandez-Montenegro
+Weijie Pan (Python),
+Jingxian Chen (R),
+Eric Hernandez-Montenegro (Stata)
 
 Question
 
-`Do people’s eating habits have the same effect on their diabetes status with or without insurance?`
+`Do people’s eating habits have the same effect on their diabetes status with or without health insurance?`
 
 Data
 2015-2016 Demographic Variables and Sample Weights  
