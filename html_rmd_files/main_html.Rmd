@@ -1,0 +1,55 @@
+---
+title: "STATS 506 - Group Project"
+author: "Group 1"
+date: "12/9/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+# Data
+
+# Methods
+
+# Core Analysis {.tabset .tabset-fade .tabset-pills}
+
+## R
+
+### Heading 1
+
+### Heading 2
+
+### Heading 3
+
+### Heading 4
+
+## Python
+
+### Heading 1
+
+### Heading 2
+
+### Heading 3
+
+### Heading 4
+
+## STATA
+
+### Heading 1
+
+### Heading 2
+
+### Heading 3
+
+### Heading 4
+
+
+# Results
+
+# Discussion
+
+# References
