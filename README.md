@@ -8,8 +8,7 @@ Question
 
 `Do people’s eating habits have the same effect on their diabetes status with or without health insurance?`
 
-Data
-2015-2016 Demographic Variables and Sample Weights  
+Data : `2015-2016 Demographic Variables and Sample Weights` [Link](https://wwwn.cdc.gov/nchs/nhanes/search/datapage.aspx?Component=Demographics&CycleBeginYear=2015)   
 Variables:  
 SEQN - Respondent sequence number  
 RIAGENDR - Gender  
