@@ -1,6 +1,6 @@
 ---
 title: "STATS 506 - Group Project"
-author: "Group 1"
+author: "Group 1 - Weijie Pan, Jingxian Chen, Eric Hernandez-Montenegro"
 date: "12/9/2019"
 output: html_document
 ---
