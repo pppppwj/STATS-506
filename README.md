@@ -23,7 +23,7 @@ Data : `2015-2016 Health Insurance` [\<Link\>](https://wwwn.cdc.gov/nchs/nhanes/
 | SEQN       | Respondent sequence number  |
 | HIQ011    | Covered by health insurance     |
 
-Data : `2015-2016 Diabetes` [\<Link\>](https://wwwn.cdc.gov/nchs/nhanes/Search/DataPage.aspx?Component=Questionnaire&CycleBeginYear=2015）
+Data : `2015-2016 Diabetes` [\<Link\>](https://wwwn.cdc.gov/nchs/nhanes/Search/DataPage.aspx?Component=Questionnaire&CycleBeginYear=2015)
 
 | Variables Name   |Variable Description     |
 | ------------- |:-------------:|
