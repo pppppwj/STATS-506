@@ -132,4 +132,6 @@ end
 * Average ROC Area = .76423
 lassologit diabetes gender age income energy_org-alcohol_alt, lambda(15.84241989)
 
+predict pdiabetesfinal, pr
+roctab diabetes pdiabetesfinal, graph summary
 
