@@ -603,13 +603,523 @@ And they are **less likely** to have diabetes issue with same amoount **VE, alco
 
 ## STATA
 
-### Heading 1
+### Clean Data
+Data was merged, cleaned, and dietary (food) variables were standardized. Additional insurance variable was added to account for opposite effect of having insurance in regards to consumption. Original and alternative variables were created to act as interactives to account for when having insurance and not having insurance.
 
-### Heading 2
+```{r, eval = FALSE}
+/ Load Demographic Data
+fdause https://wwwn.cdc.gov/Nchs/Nhanes/2015-2016/DEMO_I.XPT, clear
+// Keep relevant variables
+keep seqn riagendr ridageyr indfmin2
+// Rename variables
+rename seqn id
+rename riagendr gender
+rename ridageyr age
+rename indfmin2 income
+// Drop Missing Observations
+drop if id == .
+drop if gender == .
+drop if age == .
+drop if income == .
+// Recode gender
+// Male - 1
+// Female - 0
+*replace gender = 0  if gender == 2
+// Recode by Age
+// 1 - Age 0-12
+// 2 - 12-18 Teenager
+// 3 - 18-40
+// 4 - 40 - 59
+// 5 - 59+
+gen age1 = inrange(age,0,12)
+gen age2 = inrange(age,13,18)
+replace age2 = 2 if age2 == 1
+gen age3 = inrange(age,19,40)
+replace age3 = 3 if age3 == 1
+gen age4 = inrange(age,41,59)
+replace age4 = 4 if age4 == 1
+gen age5 = inrange(age,60,1000)
+replace age5 = 5 if age5 == 1
+gen age_full = age1 + age2 + age3 + age4 + age5
+replace age = age_full
+drop age1 age2 age3 age4 age5 age_full
+// Drop some of the income variables
+drop if  income == 12
+drop if income ==  13
+drop if income == 77
+drop if income == 99
+// Recode income variables
+replace income = 12 if income == 14
+replace income = 13 if income == 15 
+// Save demographic data
+save demo_data, replace
+* -----------------------------------------------------------------------------
+// Load Health Insurance Data
+fdause https://wwwn.cdc.gov/Nchs/Nhanes/2015-2016/HIQ_I.XPT, clear
+// Keep relevant variables
+keep seqn hiq011
+// Rename variables
+rename seqn id
+rename hiq01 insurance1
+// Recode insurance1 variable
+// 0 - No Insurance
+// 1 - Insurance
+replace insurance1 = 0 if insurance1 == 2
+// Drop refused, dont know, and missing data from insurance
+keep if insurance1 == 0 | insurance1 == 1
+// Generate second insurance variable
+generate insurance2 = insurance1 - insurance1
+replace insurance2 = 1 if insurance1 == 0
+// Save Insurance Data
+save ins_data, replace
+// Merge Demographic and Health Insurance Data
+merge 1:1 id using demo_data
+// Keep only matching/merged observations
+keep if _merge == 3
+drop _merge
+save main_data, replace
+* -----------------------------------------------------------------------------
+// Load Diabetes Data
+fdause https://wwwn.cdc.gov/Nchs/Nhanes/2015-2016/DIQ_I.XPT, clear
+// Keep relevant variables
+keep seqn diq010
+// Rename variables
+rename seqn id
+rename diq010 diabetes
+// Re-Code diabetes variable
+// 0 - No diabetes
+// 1 - Diabetes
+replace diabetes = 0 if diabetes == 2
+// Drop observations other than yes and no
+keep if diabetes == 0 | diabetes == 1
+// Save diabetes data
+save diabetes_data, replace
+// Merge with main data set
+merge 1:1 id using main_data
+// Keep only matching/merged observations
+keep if _merge == 3
+drop _merge
+save main_data, replace
+* -----------------------------------------------------------------------------
+// Load Total Foods Data Day 1
+fdause https://wwwn.cdc.gov/Nchs/Nhanes/2015-2016/DR1TOT_I.XPT, clear
+// Keep relevant variables
+keep seqn wtdrd1 wtdr2d dr1tiron dr1tcalc dr1tzinc dr1tsodi dr1tatoc dr1tvara dr1talco dr1tvc dr1ttfat dr1tfibe dr1tsugr dr1tcarb dr1tkcal dr1tprot
+// Rename variables
+rename seqn id 
+rename wtdrd1 weight1
+rename wtdr2d weight2
+rename dr1tiron iron
+rename dr1tcalc calcium
+rename dr1tzinc zinc
+rename dr1tsodi sodium
+rename dr1tatoc ve
+rename dr1tvara va
+rename dr1talco alcohol
+rename dr1tvc   vc
+rename dr1ttfat fat
+rename dr1tfibe fiber
+rename dr1tsugr sugars
+rename dr1tcarb carbohydrate
+rename dr1tkcal energy
+rename dr1tprot protein
+// Drop observations with missing data
+drop if id == .
+drop if energy == .
+drop if protein == .
+drop if carbohydrate == .
+drop if sugars == .
+drop if fiber == .
+drop if fat == .
+drop if ve == .
+drop if va == .
+drop if vc == .
+drop if calcium == .
+drop if iron == .
+drop if zinc == .
+drop if sodium == .
+drop if alcohol == .
+// Generate day of survey
+generate survey_day = 1
+// Standardize Food Data
+egen std_energy = std(energy)
+egen std_protein = std(protein)
+egen std_carbohydrate = std(carbohydrate)
+egen std_sugars = std(sugars)
+egen std_fiber = std(fiber)
+egen std_fat = std(fat)
+egen std_ve = std(ve)
+egen std_va = std(va)
+egen std_vc = std(vc)
+egen std_calcium = std(calcium)
+egen std_iron = std(iron)
+egen std_zinc = std(zinc)
+egen std_sodium = std(sodium)
+egen std_alcohol = std(alcohol)
+// Replace Food variables with their standardized versions
+replace energy = std_energy
+replace protein = std_protein
+replace carbohydrate = std_carbohydrate
+replace sugars = std_sugars
+replace fiber = std_fiber
+replace fat = std_fat
+replace ve = std_ve
+replace va = std_va
+replace vc = std_vc
+replace calcium = std_calcium
+replace iron = std_iron
+replace zinc = std_zinc
+replace sodium = std_sodium
+replace alcohol = std_alcohol
+drop std*
+// Recreate weight variable
+replace weight1 = weight2 if survey_day == 2
+rename weight1 weight
+drop weight2
+drop if weight == .
+// Arrange data
+order id survey_day
+// Save day 1 total data
+save day1_total, replace
+* -----------------------------------------------------------------------------
+// Load Total Foods Data Day 2
+fdause https://wwwn.cdc.gov/Nchs/Nhanes/2015-2016/DR2TOT_I.XPT, clear
+// Keep relevant variables
+keep seqn wtdrd1 wtdr2d dr2tiron dr2tcalc dr2tzinc dr2tsodi dr2tatoc dr2tvara dr2talco dr2tvc dr2ttfat dr2tfibe dr2tsugr dr2tcarb dr2tkcal dr2tprot
+// Rename variables
+rename seqn id 
+rename wtdrd1 weight1
+rename wtdr2d weight2
+rename dr2tiron iron
+rename dr2tcalc calcium
+rename dr2tzinc zinc
+rename dr2tsodi sodium
+rename dr2tatoc ve
+rename dr2tvara va
+rename dr2talco alcohol
+rename dr2tvc vc
+rename dr2ttfat fat
+rename dr2tfibe fiber
+rename dr2tsugr sugars
+rename dr2tcarb carbohydrate
+rename dr2tkcal energy
+rename dr2tprot protein
+// Drop observations with missing data
+drop if id == .
+drop if energy == .
+drop if protein == .
+drop if carbohydrate == .
+drop if sugars == .
+drop if fiber == .
+drop if fat == .
+drop if ve == .
+drop if va == .
+drop if vc == .
+drop if calcium == .
+drop if iron == .
+drop if zinc == .
+drop if sodium == .
+drop if alcohol == .
+// Generate survey day 
+generate survey_day = 2
+// Standardize food variables
+egen std_energy = std(energy)
+egen std_protein = std(protein)
+egen std_carbohydrate = std(carbohydrate)
+egen std_sugars = std(sugars)
+egen std_fiber = std(fiber)
+egen std_fat = std(fat)
+egen std_ve = std(ve)
+egen std_va = std(va)
+egen std_vc = std(vc)
+egen std_calcium = std(calcium)
+egen std_iron = std(iron)
+egen std_zinc = std(zinc)
+egen std_sodium = std(sodium)
+egen std_alcohol = std(alcohol)
+// Replace Food variables with their standardized versions
+replace energy = std_energy
+replace protein = std_protein
+replace carbohydrate = std_carbohydrate
+replace sugars = std_sugars
+replace fiber = std_fiber
+replace fat = std_fat
+replace ve = std_ve
+replace va = std_va
+replace vc = std_vc
+replace calcium = std_calcium
+replace iron = std_iron
+replace zinc = std_zinc
+replace sodium = std_sodium
+replace alcohol = std_alcohol
+drop std*
+// Recreate weight variable
+replace weight1 = weight2 if survey_day == 2
+rename weight1 weight
+drop weight2
+drop if weight == .
+// Order data
+order id survey_day
+// Save day 2 data
+save day2_total, replace
+// Append day 1 and day 2 data
+append using day1_total
+// Sort data by id
+sort id survey_day
+// Save data
+save day1_day2_data, replace
+// Merge day 1 and day 2 data with main data
+merge m:1 id using main_data
+// Keep only matching/merged observations
+keep if _merge == 3
+drop _merge
+// Order Data
+order id survey_day weight diabetes insurance1 insurance2 gender age income
+save main_data, replace
+export delimited main_data_csv_eric_stata.csv, replace
+// -----------------------------------------------------------------------------
+// Create insurance and no insurance variables
+gen energy_org = energy*insurance1
+gen energy_alt = energy*insurance2
+gen protein_org = protein*insurance1
+gen protein_alt = protein*insurance2
+gen carbohydrate_org = carbohydrate*insurance1
+gen carbohydrate_alt = carbohydrate*insurance2
+gen sugars_org = sugars*insurance1
+gen sugars_alt = sugars*insurance2
+gen fiber_org = fiber*insurance1
+gen fiber_alt = fiber*insurance2
+gen fat_org = fat*insurance1
+gen fat_alt = fat*insurance2
+gen ve_org = ve*insurance1
+gen ve_alt = ve*insurance2
+gen va_org = va*insurance1
+gen va_alt = va*insurance2
+gen vc_org = vc*insurance1
+gen vc_alt = vc*insurance2
+gen calcium_org = calcium*insurance1
+gen calcium_alt = calcium*insurance2
+gen iron_org = iron*insurance1
+gen iron_alt = iron*insurance2
+gen zinc_org = zinc*insurance1
+gen zinc_alt = zinc*insurance2
+gen sodium_org = sodium*insurance1
+gen sodium_alt = sodium*insurance2
+gen alcohol_org = alcohol*insurance1
+gen alcohol_alt = alcohol*insurance2
+// Drop variables that are not needed anymore
+drop weight energy protein carbohydrate sugars fiber fat ve va vc calcium iron zinc sodium alcohol
+drop insurance1 insurance2
+// Main data modified with interaction terms and some dropped variables
+save main_data_modified, replace
+export delimited main_data_modified.csv, replace
+// List first three rows of data
+list if _n <= 3
+```
 
-### Heading 3
+![](https://github.com/pppppwj/STATS-506/blob/master/data_preprocess/STATA_Data/data_first_3_lines.PNG?raw=true)
 
-### Heading 4
+### Data Visualization
+
+To perform data visualization, people with diabates and without diabates were looked at by group according to age, gender, and insurance status. To assess differences in eating habits for selected nutrients (fat, carbohydrates, and sugar), the mean consumption of those nutrients were calculated by group.
+
+```{r, eval = FALSE}
+# Include plots for the data visulation of nutrients per group
+import delimited nutrients_differences.csv, clear
+label define gender_label 1 "Male" 2 "Female"
+label define insurance1_label 1 "Insurance" 0 "No Insurance"
+label define age_label 1 "0-12" 2 "12-18" 3 "40-59" 4 "40-59" 5 "59+"
+label values gender gender_label
+label values insurance1 insurance1_label
+label values age age_label
+* Graph fat consumption by groups
+graph hbar fat_nd fat_d, by(age gender insurance1)bargap(-50) legend(label(1 "Mean Fat (ND)") label(2 "Mean Fat (D)"))
+* Graph sugar consumption by groups
+graph hbar sugar_nd sugar_d, by(age gender insurance1) bargap(-50) legend(label(1 "Mean Sugar (ND)") label(2 "Mean Sugar (D)"))
+* Graph carbohydrate consumption by groups
+graph hbar carbohydrate_nd carbohydrate_d, by(age gender insurance1) bargap(-50) legend(label(1 "Mean Carbohydrate (ND)") label(2 "Mean Carbohydrate (D)")) 
+* Graph all nutrient consumption in one by groups
+graph hbar fat_nd fat_d sugar_nd sugar_d carbohydrate_nd carbohydrate_d, by(age gender insurance1) legend(label(1 "Mean Fat (ND)") label(2 "Mean Fat (D)") label(3 "Mean Sugar (ND)") label(4 "Mean Sugar (D)") label(5 "Mean Carbohydrate (ND)") label(6 "Mean Carbohydrate (D)")) bar(1, color(ltblue)) bar(2, color(navy)) bar(3, color(sand)) bar(4, color(sandb)) bar(5, color(eltgreen)) bar(6, color(dkgreen))
+```
+![](https://github.com/pppppwj/STATS-506/blob/master/data_visualization/STATA_Graphs/nutrients_visual_carbohydrate.png?raw=true "Data Visualization for the mean consumption of carbhoydrate for successfully merged groups of people who had diabates and those who did not by Age, Gender, and Insurance.")
+
+
+**Figure 1:** Data Visualization for the mean consumption of carbhoydrate for successfully merged groups of people who had diabates and those who did not by Age, Gender, and Insurance.
+
+![](https://github.com/pppppwj/STATS-506/blob/master/data_visualization/STATA_Graphs/nutrients_visual_fat.png?raw=true "Data Visualization for the mean consumption of fat for successfully merged groups of people who had diabates and those who did not by Age, Gender, and Insurance.")
+
+**Figure 2:** Data Visualization for the mean consumption of fat for successfully merged groups of people who had diabates and those who did not by Age, Gender, and Insurance.
+
+![](https://github.com/pppppwj/STATS-506/blob/master/data_visualization/STATA_Graphs/nutrients_visual_sugar.png?raw=true "Data Visualization for the mean consumption of sugar for successfully merged groups of people who had diabates and those who did not by Age, Gender, and Insurance.")
+
+**Figure 3:** Data Visualization for the mean consumption of sugar for successfully merged groups of people who had diabates and those who did not by Age, Gender, and Insurance.
+
+
+![](https://github.com/pppppwj/STATS-506/blob/master/data_visualization/STATA_Graphs/nutrients_visual_all.png?raw=true "Data Visualization for the mean consumption of fat, sugar, and carbhoydrates for successfully merged groups of people who had diabates and those who did not by Age, Gender, and Insurance.")
+
+
+**Figure 4:** Data Visualization for the mean consumption of fat, sugar, and carbhoydrates for successfully merged groups of people who had diabates and those who did not by Age, Gender, and Insurance.
+
+
+### Model
+
+Dataset is divided into ten training sets and 10 test sets. Then LASSO 10-Fold Cross-Validation is performed to obtain optimal lambdas. Lambda chosen was the one that minimizes loss measure.
+
+```{r, eval = FALSE}
+* Import Main Data Set
+use main_data_modified.dta, clear
+* Create 10 Training and 10 Test Data Sets
+* Build Training Data - 80 % of Main Data Set
+* Build Test Data - 20 % of Main Data Set
+* Key:
+* Training Data if "training" == 1
+* Test Data if "training" == 0
+forval v = 1/10 {
+set seed 11`v'
+gen random`v' = uniform()
+sort random`v'
+gen byte training`v' = _n <= 13245*.8
+}
+drop random*
+save training_test_data, replace
+* Use 10-Fold Cross-Validation with Logistic Regression on Training Data
+* to obtain optimal lambda
+* NOTE: Install "lassopack" "pdslasso" and "cvAUROC"
+ssc install pdslasso
+ssc install lassopack
+ssc install cvAUROC
+forval v = 1/10 {
+cvlassologit diabetes gender-alcohol_alt if training`v' == 1, nfolds(10) seed(11`v') 
+}
+* Lambda Values (that minimize loss measure):
+* 8.6141729 
+* 15.424845
+* 13.24682 
+* 13.310124 
+* 17.646587 
+* 17.67645
+* 18.184071 
+* 11.675487 
+* 27.217884 
+* 15.427758 
+```
+
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/lambda_seed111.PNG?raw=true)
+
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/lambda_seed112.PNG?raw=true)
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/lambda_seed113.PNG?raw=true)
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/lambda_seed114.PNG?raw=true)
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/lambda_seed115.PNG?raw=true)
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/lambda_seed116.PNG?raw=true)
+
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/lambda_seed117.PNG?raw=true)
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/lambda_seed118.PNG?raw=true)
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/lambda_seed119.PNG?raw=true)
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/lambda_seed1110.PNG?raw=true)
+
+Now use those lambda's to run predicitons and obtain the ROC area to evaluate each models' performance with those ten selected lambdas.
+
+```{r, eval = FALSE}
+* Predict on test data using each lambda and calculate ROC for each
+lassologit diabetes gender age income energy_org-alcohol_alt if training1== 1, lambda(8.6141729)
+predict pdiabetes1 if training1 == 0, pr
+roctab diabetes pdiabetes1, graph summary
+* ROC Area = 0.8482 
+lassologit diabetes gender age income energy_org-alcohol_alt if training2== 1, lambda(15.424845)
+predict pdiabetes2 if training2 == 0, pr
+roctab diabetes pdiabetes2, graph summary
+* ROC Area = 0.8396  
+lassologit diabetes gender age income energy_org-alcohol_alt if training3 == 1, lambda(13.24682)
+predict pdiabetes3 if training3 == 0, pr
+roctab diabetes pdiabetes3, graph summary
+* ROC Area = 0.8545 
+lassologit diabetes gender age income energy_org-alcohol_alt if training4 == 1, lambda(13.310124)
+predict pdiabetes4 if training4 == 0, pr
+roctab diabetes pdiabetes4, graph summary
+* ROC Area = 0.8495
+lassologit diabetes gender age income energy_org-alcohol_alt if training5 == 1, lambda(17.646587)
+predict pdiabetes5 if training5 == 0, pr
+roctab diabetes pdiabetes5, graph summary
+* ROC Area = 0.8546
+lassologit diabetes gender age income energy_org-alcohol_alt if training6 == 1, lambda(17.67645)
+predict pdiabetes6 if training6 == 0, pr
+roctab diabetes pdiabetes6, graph summary
+* ROC Area = 0.8551 
+lassologit diabetes gender age income energy_org-alcohol_alt if training7 == 1, lambda(18.184071)
+predict pdiabetes7 if training7 == 0, pr
+roctab diabetes pdiabetes7, graph summary
+* ROC Area = 0.8394 
+lassologit diabetes gender age income energy_org-alcohol_alt if training8 == 1, lambda(11.675487)
+predict pdiabetes8 if training8 == 0, pr
+roctab diabetes pdiabetes8, graph summary
+* ROC Area = 0.8462 
+lassologit diabetes gender age income energy_org-alcohol_alt if training9 == 1, lambda(27.217884)
+predict pdiabetes9 if training9 == 0, pr
+roctab diabetes pdiabetes9, graph summary
+* ROC Area = 0.8513 
+lassologit diabetes gender age income energy_org-alcohol_alt if training10 == 1, lambda(15.427758)
+predict pdiabetes10 if training10 == 0, pr
+roctab diabetes pdiabetes10, graph summary
+* ROC Area = 0.8534
+```
+
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary1.PNG?raw=true    )
+
+**Figure 5: Summary for ROC curve for model with lambda  = 8.6141729**
+
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary2.PNG?raw=true    )
+
+**Figure 6: Summary for ROC curve for model with lambda = 15.424845 **
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary3.PNG?raw=true    )
+**Figure 7: Summary for ROC curve for model with lambda = 13.24682 **
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary4.PNG?raw=true    )
+**Figure 8: Summary for ROC curve for model with lambda = 13.310124 **
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary5.PNG?raw=true   )
+**Figure 9: Summary for ROC curve for model with lambda = 17.646587 **
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary6.PNG?raw=true    )
+**Figure 10: Summary for ROC curve for model with lambda = 17.67645 **
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary7.PNG?raw=true    )
+**Figure 11: Summary for ROC curve for model with lambda = 18.184071**
+
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary8.PNG?raw=true    )
+
+**Figure 12: Summary for ROC curve for model with lambda = 11.675487 **
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary9.PNG?raw=true    )
+**Figure 13: Summary for ROC curve for model with lambda = 27.217884 **
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary10.PNG?raw=true    )
+**Figure 14: Summary for ROC curve for model with lambda = 15.427758 **
+Taking the average of the ten optimal lambdas we obtain: 15.8424198, which we use on the final model. We then obtain coefficients for the final model.
+```{r, eval = FALSE}
+* Fit final model with average lambda
+* And calculate ROC to judge performance of model
+* Average lambda = 15.84241989
+* Average ROC Area = .76423
+lassologit diabetes gender age income energy_org-alcohol_alt, lambda(15.84241989)
+predict pdiabetesfinal, pr
+roctab diabetes pdiabetesfinal, graph summary
+```
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/coef_final.PNG?raw=true 
+"Coefficients for Final Model")
+**Figure 15:** Coefficients for Final Model
+
+
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summaryfinal.PNG?raw=true "Summary for ROC curve for Final Model")
+
+**Figure 16:** Summary for ROC curve for Final Model
+
+
+![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/rocfinal.png?raw=true "ROC Curve for Final Model")
+
+**Figure 17:** ROC Curve for Final Model
+
+
+
+
+### Results
+
+The LASSO Cross-Validation selected ten lambdas and the ten were averaged to find the lambda that will be used for the final model. Using LASSO logistic regression with a lambda of 15.84241989, we narrowed (shrunk) down our variables. The variables that were selected were:
+gender, age, income, original sugars, alternative sugars, original fat, original vitamin e, alternative vitamin a, original vitamin c, original calcium, alternative calcium, orginal iron, original zinc, alternative zinc, original sodium, original alcohol, and alternative alcohol. The area under the ROC curve was found to be 0.8508, which tells us that the model performs well. We see that eating habits do in fact differ. We can see that the original sugars variable has a negative effect, thus we can say that people who have insurance are more likely not going to be told they have diabetes. Assessing the fat variable we can say that more fat consumption with insurance leads to a doctor telling an individual that they have diabetes. Similarly with Vitamin E consumption, with insurance, the chance of being told by a doctor that they have diabetes becomes smaller as they consume more. Similar interpretations can be done with the remaining variables. In addition, we can observe what our demographic variables tell us. For example, we see that people with a higher income are less likely to be told by their doctors that they have diabetes.
+
 
 ### Results
 
