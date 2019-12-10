@@ -36,6 +36,7 @@ Because the data is unbalance. So we use AUC to judge our model.
 
 ROC curve: Y-axis is TPR=TP/(TP+FN) , X-axis is FPR=FP/(FP+TN).   
 AUC is value of area under ROC curve.  
+Several equivalent interpretations of AUC:
 * The expectation that a uniformly drawn random positive is ranked before a uniformly drawn random negative.
 * The expected proportion of positives ranked before a uniformly drawn random negative.
 * The expected true positive rate if the ranking is split just before a uniformly drawn random negative.
