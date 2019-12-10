@@ -399,3 +399,7 @@ drop insurance1 insurance2
 save main_data_modified, replace
 
 export delimited main_data_modified.csv, replace
+
+// List first three rows of data
+
+list if _n <= 3
