@@ -1168,6 +1168,15 @@ the lambda that minimizes the loss measure. This is due to a limitation in STATA
 that was encountered.
 
 # References
+Ying Zhu, Tuck Lee Tan, Wai Kwong Cheang,
+Penalized logistic regression for classification and feature selection with its application to detection of two official species of Ganoderma,
+Chemometrics and Intelligent Laboratory Systems,
+Volume 171,
+2017,
+Pages 55-64,
+ISSN 0169-7439,
+https://doi.org/10.1016/j.chemolab.2017.09.019.
+
 STATA:
 
 Luque-Fernandez MA, Redondo-Sanchez D, Maringe C. (2019). Cross-validated Area Under the Curve. GitHub repository, https://github.com/migariane/cvauroc
