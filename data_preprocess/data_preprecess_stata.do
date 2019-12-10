@@ -26,6 +26,11 @@ drop if gender == .
 drop if age == .
 drop if income == .
 
+// Recode gender
+// Male - 1
+// Female - 0
+*replace gender = 0  if gender == 2
+
 // Recode by Age
 // 1 - Age 0-12
 // 2 - 12-18 Teenager
@@ -339,3 +344,58 @@ save main_data, replace
 
 export delimited main_data_csv_eric_stata.csv, replace
 
+
+// -----------------------------------------------------------------------------
+// Create insurance and no insurance variables
+gen energy_org = energy*insurance1
+gen energy_alt = energy*insurance2
+
+gen protein_org = protein*insurance1
+gen protein_alt = protein*insurance2
+
+gen carbohydrate_org = carbohydrate*insurance1
+gen carbohydrate_alt = carbohydrate*insurance2
+
+gen sugars_org = sugars*insurance1
+gen sugars_alt = sugars*insurance2
+
+gen fiber_org = fiber*insurance1
+gen fiber_alt = fiber*insurance2
+
+gen fat_org = fat*insurance1
+gen fat_alt = fat*insurance2
+
+gen ve_org = ve*insurance1
+gen ve_alt = ve*insurance2
+
+gen va_org = va*insurance1
+gen va_alt = va*insurance2
+
+gen vc_org = vc*insurance1
+gen vc_alt = vc*insurance2
+
+gen calcium_org = calcium*insurance1
+gen calcium_alt = calcium*insurance2
+
+gen iron_org = iron*insurance1
+gen iron_alt = iron*insurance2
+
+gen zinc_org = zinc*insurance1
+gen zinc_alt = zinc*insurance2
+
+gen sodium_org = sodium*insurance1
+gen sodium_alt = sodium*insurance2
+
+gen alcohol_org = alcohol*insurance1
+gen alcohol_alt = alcohol*insurance2
+
+
+// Drop variables that are not needed anymore
+drop weight energy protein carbohydrate sugars fiber fat ve va vc calcium iron zinc sodium alcohol
+
+drop insurance1 insurance2
+
+// Main data modified with interaction terms and some dropped variables
+save main_data_modified, replace
+
+export delimited main_data_modified.csv, replace
