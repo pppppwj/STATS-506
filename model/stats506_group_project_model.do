@@ -13,6 +13,8 @@
 * Lastly, we average the 10 lambdas to obtain a final lambda and use it 
 * in our final model.
 *-------------------------------------------------------------------------------
+
+version 16.0
 log using model.log, text replace
 
 * Import Main Data Set
