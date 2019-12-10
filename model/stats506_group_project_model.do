@@ -15,7 +15,7 @@
 *-------------------------------------------------------------------------------
 
 * Import Main Data Set
-use "I:\stats506_group_project\main_data_modified.dta"
+use main_data_modified.dta, clear
 
 *-------------------------------------------------------------------------------
 * Create 10 Training and 10 Test Data Sets
