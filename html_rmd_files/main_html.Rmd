@@ -481,7 +481,8 @@ day12_demo_diabetes = day12_demo_diabetes.drop(["weight"],axis=1)
 ![](/Users/weijiepan/Documents/GitHub/STATS-506/data_visualization/py_Graphs/Vitamin_E.png)
 
 As we can see from the above pictures, the intakes of vitamin A,C and E are almost the same in mostly group except for the group (teenage 13-18, male, with_ins) and the group (teenage 13-18, female, with_ins). It seems for me that vitamin A,C and E
-do NOT play important roles in this model. Teenage with diabetes can not eat too much sugar, which push them to eat more fruits or vegetables. 
+do NOT play important roles in this model. Teenage with diabetes can not eat too much sugar, which push them to eat more fruits or vegetables.   
+ 
 ### model
 
 ```{python eval=FALSE}
