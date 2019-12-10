@@ -8,6 +8,9 @@
 * It creates 16 bar graphs one for each group demonstrating their eating habits.
 *-------------------------------------------------------------------------------
 
+log using data_visual, text replace
+
+
 // Load Demographic Data
 fdause https://wwwn.cdc.gov/Nchs/Nhanes/2015-2016/DEMO_I.XPT, clear
 
@@ -435,3 +438,6 @@ graph hbar carbohydrate_nd carbohydrate_d, by(age gender insurance1) bargap(-50)
 * Graph all nutrient consumption in one by groups
 graph hbar fat_nd fat_d sugar_nd sugar_d carbohydrate_nd carbohydrate_d, by(age gender insurance1) legend(label(1 "Mean Fat (ND)") label(2 "Mean Fat (D)") label(3 "Mean Sugar (ND)") label(4 "Mean Sugar (D)") label(5 "Mean Carbohydrate (ND)") label(6 "Mean Carbohydrate (D)")) bar(1, color(ltblue)) bar(2, color(navy)) bar(3, color(sand)) bar(4, color(sandb)) bar(5, color(eltgreen)) bar(6, color(dkgreen))
 
+log close
+
+// End of Do-File
