@@ -30,7 +30,7 @@ Iron, Calcium, Zinc, Sodium, Vitamin E, Vitamin A, Alcohol, Vitamin C, Total fat
 
 
 # Methods
-## Logistic Regression with Lasso Penalty
+### Logistic Regression with Lasso Penalty
 
 Diabete is a binary variable. For binary classification problems, linear logistic regression model is most often used. 
 Although logistic regression often performs comparably to competing methods, such as support vector machine and linear 
@@ -51,7 +51,7 @@ In order to select the variables and avoid overfitting, here we try to use logis
 Now it becomes to be estimated by minimizing the following formula:
 $$\min_{\beta}\{-\frac{1}{n}\sum_{i=1}^n{\{y_i(x_i^T\beta)-\log(1+\exp(x_i^T\beta))\}}+P_\lambda(\beta)\},P_\lambda(\beta)=\lambda\sum_{j=1}^k|\beta_j|$$
 
-## ROC curve and AUC
+### ROC curve and AUC
 
 Because the data is unbalance. So we use AUC to judge our model.
 
