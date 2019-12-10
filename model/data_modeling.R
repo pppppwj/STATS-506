@@ -4,6 +4,14 @@
 # Version: 2.0
 # Date: Dec 7th, 2019
 ################################################################################
+
+#-------------------------------------------------------------------------------
+# Description: This code is for the modeling of the final data, I first use 
+# doParallel package to register core using, and then split data into training 
+# and testset, then use crossvalidation to choose optimal hyperparameter, finally 
+# use AUC to estimate the model performance.
+#-------------------------------------------------------------------------------
+
 ## load data
 source("D:/Files/stats506/group_project/data_preprocessing.R")
 
@@ -12,7 +20,7 @@ library(doParallel)
 library(glmnet)
 
 ## setup parallel computing parameter
-ncores=4   
+ncores = 2  
 
 # set up a cluster called 'cl'
 cl = makeCluster(ncores)
@@ -22,7 +30,7 @@ registerDoParallel(cl)
 
 
 # set the number of testset partition times
-N_test <- 50
+N_test <- 10
 
 # delete the insurance variable and add interactive term with intake variables
 times_insur <- function(x) x * Data_final$insurance
@@ -71,10 +79,10 @@ result = foreach(i = 1:N_test) %dopar% {
     # use the lambda which gives the best AUC value and avoid improving model 
     # complexity to build our model
     model_small <- glmnet(x_train, y_train, alpha = 1, famaily = "binomial", 
-                          lambda = cv.lasso$lambda.1se)
+                          lambda = cv.lasso$lambda.min)
     
     # store the optimal lambda value
-    lambda <- cv.lasso$lambda.1se
+    lambda <- cv.lasso$lambda.min
     
     # make prediction using test data
     x_test <- model.matrix(diabetes ~ ., test_data)[, -1]

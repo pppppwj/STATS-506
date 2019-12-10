@@ -4,6 +4,14 @@
 # Version: 1.0
 # Date: Nov 25th, 2019
 ################################################################################
+
+#-------------------------------------------------------------------------------
+# Description: This is the code to cleaning the data and extract the variables we
+# want, then combine all the datasets together, and preprocessing the vaiables 
+# like standardize the dietary data, grouping the age variables, removing missing 
+# values.
+#-------------------------------------------------------------------------------
+
 library(SASxport)
 
 Demographic_data <- read.xport("C:\\Users\\95260\\Desktop\\stats506\\group_project\\DEMO_I.XPT")

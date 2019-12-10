@@ -4,6 +4,13 @@
 # Version: 1.0
 # Date: Dec 6th, 2019
 ################################################################################
+
+#-------------------------------------------------------------------------------
+# Description: This code is to visualize the data to get a better look on the data
+# we have, and see some trends before we build the model, here we use the final
+# data without dietary variables being standardized.
+#-------------------------------------------------------------------------------
+
 ## load data
 library(cowplot)
 source("D:/Files/stats506/group_project/data_preprocessing.R")
