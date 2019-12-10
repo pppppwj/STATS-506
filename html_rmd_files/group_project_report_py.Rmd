@@ -1,1 +1,225 @@
+---
+title: "506project"
+author: "Weijie Pan"
+date: "12/9/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(reticulate)
+use_python("/Users/weijiepan/anaconda3/lib/python3.7")
+```
+
+## python
+
+### data preprocess
+```{python eval=FALSE}
+#env set
+import pandas as pd
+#read DEMO_I.XPT
+demo = pd.read_sas('/Users/weijiepan/Desktop/506_project/DEMO_I.XPT')
+#select SEQN(id) RIDAGEYR(age) RIAGENDR(gender) INDFMIN2(Annual Family Income) 
+#lower case 
+demo = demo[["SEQN","RIAGENDR","RIDAGEYR","INDFMIN2"]]
 demo = demo.rename(columns={"SEQN":"id","RIAGENDR": "gender", "RIDAGEYR": "age","INDFMIN2":"income"})
+#income remove 12 13 and 14->12 15->13
+demo = demo[((demo.income>=0) & (demo.income<=11)) | (demo.income==14) | (demo.income==15)]
+demo.income[demo.income==14]=12
+demo.income[demo.income==15]=13
+#age divede 0～12 => 1 | 13～18 => 2 | 19～40 => 3 | 41～59 => 4 | 60～ => 5 demo.age[(demo.age>=0) & (demo.age<=12)] = 1
+demo.age[(demo.age>=13) & (demo.age<=18)] = 2
+demo.age[(demo.age>=19) & (demo.age<=40)] = 3
+demo.age[(demo.age>=41) & (demo.age<=59)] = 4
+demo.age[(demo.age>=60)] = 5
+#Diabetes
+diabetes = pd.read_sas('/Users/weijiepan/Desktop/506_project/DIQ_I.XPT')
+diabetes = diabetes[["SEQN","DIQ010"]]
+diabetes = diabetes.rename(columns={"SEQN":"id","DIQ010":"diabetes"})
+#change diabetes 2 -> No 1->Yes remove other 
+diabetes=diabetes[(diabetes.diabetes==1) | (diabetes.diabetes==2)]
+diabetes.diabetes[diabetes.diabetes==2]=0
+#insurance
+insurance = pd.read_sas('/Users/weijiepan/Desktop/506_project/HIQ_I.XPT')
+insurance = insurance[["SEQN","HIQ011"]]
+insurance = insurance.rename(columns={"SEQN":"id","HIQ011":"insurance"})
+insurance = insurance[(insurance.insurance==1) | (insurance.insurance==2)]
+insurance.insurance[insurance.insurance==2]=0
+#day1 
+#generate new col surveyday
+#(df-df.mean())/df.std()
+#drop day2 weight (WTDR2D)
+day1 = pd.read_sas('/Users/weijiepan/Desktop/506_project/DR1TOT_I.XPT')
+day1 = day1[["SEQN","WTDRD1","DR1TIRON","DR1TCALC","DR1TZINC","DR1TSODI","DR1TATOC","DR1TVARA",
+             "DR1TALCO","DR1TVC","DR1TTFAT","DR1TFIBE","DR1TSUGR","DR1TCARB","DR1TKCAL","DR1TPROT"]]
+day1 = day1.rename(columns={"SEQN":"id","WTDRD1":"weight",
+                            "DR1TIRON":"iron","DR1TCALC":"calcium","DR1TZINC":"zine","DR1TSODI":"sodium",
+                            "DR1TATOC":"VE","DR1TVARA":"VA","DR1TALCO":"alcohol","DR1TVC":"VC",
+                            "DR1TTFAT":"fat","DR1TFIBE":"dietary fiber","DR1TSUGR":"sugar",
+                            "DR1TCARB":"carbohydrate","DR1TKCAL":"energy","DR1TPROT":"protein"})
+#(df-df.mean())/df.std()
+#normalize
+df=day1[["iron","calcium","zine","sodium","VE","VA","alcohol","VC",
+     "fat","dietary fiber","sugar","carbohydrate","energy","protein"]]
+day1[["iron","calcium","zine","sodium","VE","VA","alcohol","VC",
+     "fat","dietary fiber","sugar","carbohydrate","energy","protein"]] = (df-df.mean())/df.std()
+day1["surveyday"]=1
+#day2 
+#drop day1 weight (WTDRD1)
+day2 = pd.read_sas('/Users/weijiepan/Desktop/506_project/DR2TOT_I.XPT')
+day2 = day2[["SEQN","WTDR2D","DR2TIRON","DR2TCALC","DR2TZINC","DR2TSODI","DR2TATOC","DR2TVARA",
+             "DR2TALCO","DR2TVC","DR2TTFAT","DR2TFIBE","DR2TSUGR","DR2TCARB","DR2TKCAL","DR2TPROT"]]
+day2 = day2.rename(columns={"SEQN":"id","WTDR2D":"weight",
+                            "DR2TIRON":"iron","DR2TCALC":"calcium","DR2TZINC":"zine","DR2TSODI":"sodium",
+                            "DR2TATOC":"VE","DR2TVARA":"VA","DR2TALCO":"alcohol","DR2TVC":"VC",
+                            "DR2TTFAT":"fat","DR2TFIBE":"dietary fiber","DR2TSUGR":"sugar",
+                            "DR2TCARB":"carbohydrate","DR2TKCAL":"energy","DR2TPROT":"protein"})
+#nomorlize
+df=day2[["iron","calcium","zine","sodium","VE","VA","alcohol","VC",
+     "fat","dietary fiber","sugar","carbohydrate","energy","protein"]]
+day2[["iron","calcium","zine","sodium","VE","VA","alcohol","VC",
+     "fat","dietary fiber","sugar","carbohydrate","energy","protein"]] = (df-df.mean())/df.std()
+day2["surveyday"]=2
+#demo -> demo + insurance
+demo = demo.merge(insurance,left_on="id",right_on="id")
+#demo -> diabetes
+demo_diabetes = demo.merge(diabetes,left_on="id",right_on="id")
+#day1 -> demo_diabetes
+day1_demo_diabetes = day1.merge(demo_diabetes,left_on="id",right_on="id")
+#day2 -> demo_diabetes
+day2_demo_diabetes = day2.merge(demo_diabetes,left_on="id",right_on="id")
+#vhat (day1_demo_diabetes,day2_demo_diabetes)
+day12_demo_diabetes = pd.concat([day1_demo_diabetes,day2_demo_diabetes])
+#drop nan
+day12_demo_diabetes=day12_demo_diabetes.dropna(axis=0,how='any') 
+day12_demo_diabetes[(day12_demo_diabetes.weight!=0)]
+
+#after discussion decide no longer use the weight so drop it
+day12_demo_diabetes = day12_demo_diabetes.drop(["weight"],axis=1)
+```
+
+### Data visualization of VA VC and VE
+
+![](/Users/weijiepan/Documents/GitHub/STATS-506/data_visualization/py_Graphs/Vitamin_A.png)
+![](/Users/weijiepan/Documents/GitHub/STATS-506/data_visualization/py_Graphs/Vitamin_C.png)
+![](/Users/weijiepan/Documents/GitHub/STATS-506/data_visualization/py_Graphs/Vitamin_E.png)
+
+As we can see from the above pictures, the intakes of vitamin A,C and E are almost the same in mostly group except for the group (teenage 13-18, male, with_ins) and the group (teenage 13-18, female, with_ins). It seems for me that vitamin A,C and E
+do NOT play important roles in this model. Teenage with diabetes can not eat too much sugar, which push them to eat more fruits or vegetables.   
+
+### model
+
+```{python eval=FALSE}
+import pandas as pd
+#model part 
+#read the data
+data = pd.read_csv("/Users/weijiepan/Desktop/506_project/506_project_data.csv")
+data = data.drop(["Unnamed: 0"],axis=1)
+
+
+#create intecept terms
+colnames=["iron","calcium","zine","sodium","VE","VA","alcohol","VC",
+     "fat","dietary fiber","sugar","carbohydrate","energy","protein"]
+for i in colnames:
+    data[i+"_ins"] = data[i]*data["insurance"]
+
+
+#divide it into X(preditors) y(result)
+X = data.drop(["id","diabetes","insurance"],axis=1)
+y = data["diabetes"]
+
+
+#deal with categorical features
+#age, gender, income
+gender = pd.get_dummies(X['gender'],drop_first=True)
+gender.columns=["gender"+str(i) for i in gender.columns]
+
+age = pd.get_dummies(X['age'],drop_first=True)
+age.columns=["age"+str(i) for i in age.columns]
+
+income = pd.get_dummies(X['income'],drop_first=True)
+income.columns=["income"+str(i) for i in income.columns]
+
+X.drop(['gender','age','income'],axis=1,inplace=True)
+
+X = pd.concat([X,gender,age,income],axis=1)
+
+#split it into training set and test set
+from sklearn import model_selection
+X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, 
+                                                                    test_size=0.2,
+                                                                    random_state=42,
+                                                                    stratify=y)
+                                                                    
+#build the model
+from sklearn.metrics import accuracy_score 
+import numpy as np
+from sklearn.metrics import roc_auc_score
+from sklearn.linear_model import LogisticRegressionCV
+
+model = LogisticRegressionCV(penalty='l1',scoring='roc_auc',solver="saga",
+                             cv=10,class_weight={1:.9,0:.1},max_iter=1000)
+model.fit(X_train,y_train)
+
+import matplotlib.pyplot as plt
+#display the coef (sorted)
+coef = pd.Series(model.coef_[0,:], index = X_train.columns)
+plt.rcParams['figure.figsize'] = (8.0, 10.0)
+coef.sort_values().plot(kind="barh")
+```
+![](/Users/weijiepan/Desktop/506_project/pic/coef_sorted.png)
+
+
+```{python eval=FALSE}
+from sklearn.metrics import roc_curve
+#plot auc curve 
+ns_probs = [0 for _ in range(len(y_test))]
+# predict probabilities
+lr_probs = model.predict_proba(X_test)
+# keep probabilities for the positive outcome only
+lr_probs = lr_probs[:, 1]
+
+
+# calculate scores
+ns_auc = roc_auc_score(y_test, ns_probs)
+lr_auc = roc_auc_score(y_test, lr_probs)
+# summarize scores
+print('No Skill: ROC AUC=%.3f' % (ns_auc))
+print('Logistic: ROC AUC=%.3f' % (lr_auc))
+```
+
+```{python echo=FALSE}
+print('''No Skill: ROC AUC=0.500
+Logistic: ROC AUC=0.849
+''')
+```
+
+```{python eval=FALSE}
+# calculate roc curves
+ns_fpr, ns_tpr, _ = roc_curve(y_test, ns_probs)
+lr_fpr, lr_tpr, _ = roc_curve(y_test, lr_probs)
+# plot the roc curve for the model
+plt.plot(ns_fpr, ns_tpr, linestyle='--', label='No Skill')
+plt.plot(lr_fpr, lr_tpr, marker='.', label='Logistic')
+# axis labels
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+# show the legend
+plt.legend()
+# show the plot
+plt.show()
+```
+
+![](/Users/weijiepan/Desktop/506_project/pic/roc_curve.png)
+
+### Model Interpretation
+According to the final model we got above, we only remain 25 variables that are important chosen by lasso method.
+
+As we can see form the coef_sorted picture:   
+(1) The age plays an important role in the model. As people become older, they may take a greater risk to have a diabete. What interesting is that the income play a tricky role in this model. We can see at first when income increase, people have more risk to have a diabete. But after that as the imcome increase, people have lower risk to have a diabetes.   
+(2) For sugar predictor, the coefficients of the original one and the insurance interacted one are both negative, that means if a person has much sugar intake in his/her meal, then it may have less chance to be told that he/she has a diabetes issue.   
+(3) From the interaction terms, we can see sodium, iro, and fat are positive. And VC alcohol and VE are negative.
+
+People with health insurance are **more likely** to have diabetes issue with same amount **sodium, iron, fat** intakes than those without insurance;  
+And they are **less likely** to have diabetes issue with same amoount **VE, alcohol, VA** intakes than those without insurance.
+
