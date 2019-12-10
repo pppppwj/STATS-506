@@ -1156,6 +1156,8 @@ roctab diabetes pdiabetesfinal, graph summary
 The LASSO Cross-Validation selected ten lambdas and the ten were averaged to find the lambda that will be used for the final model. Using LASSO logistic regression with a lambda of 15.84241989, we narrowed (shrunk) down our variables. The variables that were selected were:
 gender, age, income, original sugars, alternative sugars, original fat, original vitamin e, alternative vitamin a, original vitamin c, original calcium, alternative calcium, orginal iron, original zinc, alternative zinc, original sodium, original alcohol, and alternative alcohol. The area under the ROC curve was found to be 0.8508, which tells us that the model performs well. We see that eating habits do in fact differ. We can see that the original sugars variable has a negative effect, thus we can say that people who have insurance are more likely not going to be told they have diabetes. Assessing the fat variable we can say that more fat consumption with insurance leads to a doctor telling an individual that they have diabetes. Similarly with Vitamin E consumption, with insurance, the chance of being told by a doctor that they have diabetes becomes smaller as they consume more. Similar interpretations can be done with the remaining variables. In addition, we can observe what our demographic variables tell us. For example, we see that people with a higher income are less likely to be told by their doctors that they have diabetes.
 
+People are less likely to have diabetes with the same amount of sugar, vitamin a, calcium, zinc, alcohol consumption than those who do not have insurance.
+
 # Summary
 
 # Discussion
