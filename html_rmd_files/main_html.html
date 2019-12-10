@@ -381,16 +381,13 @@ summary {
 </div>
 <div id="methods" class="section level1">
 <h1>Methods</h1>
-<div id="logistic-regression-with-lasso-penalty" class="section level2">
-<h2>Logistic Regression with Lasso Penalty</h2>
+<p><strong>Logistic Regression with Lasso Penalty</strong></p>
 <p>Diabete is a binary variable. For binary classification problems, linear logistic regression model is most often used. Although logistic regression often performs comparably to competing methods, such as support vector machine and linear discriminant analysis, it is chosen in this problem because of its several advantages. The notable advantages include that: it provides a direct estimate of class probability; it tends to be more robust in the case <span class="math inline">\(k&gt;&gt;n\)</span> since it makes no assumptions on the distribution of the predictors; and it doesn’t need tuning parameters. The logistic regression model presents the class-conditional probabilities through a linear function of the predictors and is expressed as:</p>
 <p><span class="math display">\[log(\frac{p}{1-p})=\beta_0+\sum_{i=1}^k{x_i\beta_i}\]</span></p>
 <p>Logistic regression coefficients are typically estimated by maximizing the following binomial log-likelihood:</p>
 <p><span class="math display">\[\max_{\beta}\sum_{i=1}^n{\{y_i(x_i^T\beta)-\log(1+\exp(x_i^T\beta))\}}\]</span></p>
 <p>In order to select the variables and avoid overfitting, here we try to use logistic regression with lasso penalty. Now it becomes to be estimated by minimizing the following formula: <span class="math display">\[\min_{\beta}\{-\frac{1}{n}\sum_{i=1}^n{\{y_i(x_i^T\beta)-\log(1+\exp(x_i^T\beta))\}}+P_\lambda(\beta)\},P_\lambda(\beta)=\lambda\sum_{j=1}^k|\beta_j|\]</span></p>
-</div>
-<div id="roc-curve-and-auc" class="section level2">
-<h2>ROC curve and AUC</h2>
+<p><strong>ROC curve and AUC</strong></p>
 <p>Because the data is unbalance. So we use AUC to judge our model.</p>
 <table>
 <thead>
@@ -420,9 +417,10 @@ Several equivalent interpretations of AUC:<br />
 * The expected proportion of positives ranked before a uniformly drawn random negative.<br />
 * The expected true positive rate if the ranking is split just before a uniformly drawn random negative.<br />
 * The expected proportion of negatives ranked after a uniformly drawn random positive.<br />
-* 1 – the expected false positive rate if the ranking is split just after a uniformly drawn random positive.<br />
-# Core Analysis {.tabset .tabset-fade .tabset-pills}</p>
+* 1 – the expected false positive rate if the ranking is split just after a uniformly drawn random positive.</p>
 </div>
+<div id="core-analysis" class="section level1 tabset tabset-fade tabset-pills">
+<h1>Core Analysis</h1>
 <div id="r" class="section level2">
 <h2>R</h2>
 <div id="load-data" class="section level3">
