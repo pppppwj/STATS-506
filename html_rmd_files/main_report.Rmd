@@ -77,7 +77,7 @@ Several equivalent interpretations of AUC:
 pre {
   white-space: pre !important;
   overflow-y: scroll !important;
-  max-height: 40vh !important;
+  max-height: 30vh !important;
 }
 </style>
 
