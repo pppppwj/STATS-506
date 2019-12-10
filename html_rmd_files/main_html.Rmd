@@ -22,7 +22,12 @@ Therefore, we purposed a question relevant to both eatting habbits, health insur
 **Do people's eating habbits have the same effect on their diabetes status with or without health insurance?**
 
 To answer this question, we decide to first consider a bunch of diet elements in our analysis, and then use a penalized logistic model to help us select the important ones. In order to see whether the eating habbits' effect is different after considering the insurance, we first create new dietary variables interacted with insurance and then implement in our model.   
+
 # Data
+
+The data used is from the National Health and Nutrition Examination Survey (NHANES). The specific datasets used are: 2015-2016 Demographic Variables and Sample Weights, 2015-2016 Health Insurance, 2015-2016 Diabetes, 2015-2016 Dietary Interview - Total Nutrient Intakes (First Day), and 2015-2016 Dietary Interview - Total Nutrient Intakes (Second Day). The following variables were used from the 2015-2016 Demographic Variables and Sample Weights dataset: respondent sequence number (seqn), age, gender, and income. From the 2015-2016 Health Insurance variables used were: respondent sequence number (seqn) and insurance (whether respondent was covered insurance or not). From the 2015-2016 Diabetes dataset, we selected the following variables: respondent sequence number (seqn) and doctor telling respondent if they had diabetes. Lastly, variables that were chosen from the 2015-2016 Dietary Interviews - Total Nutrient Intakes (First and Second Day) were:
+Iron, Calcium, Zinc, Sodium, Vitamin E, Vitamin A, Alcohol, Vitamin C, Total fat, Dietary, fiber, Total sugars, Carbohydrate, Energy, and Protein. Full data is available [here](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx).
+
 
 # Methods
 ## Logistic Regression with Lasso Penalty
