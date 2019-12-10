@@ -1,0 +1,1 @@
+demo = demo.rename(columns={"SEQN":"id","RIAGENDR": "gender", "RIDAGEYR": "age","INDFMIN2":"income"})
