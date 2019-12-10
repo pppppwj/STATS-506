@@ -1,9 +1,12 @@
 // Group 1 Project - STATS 506
 // Program: STATA 
 // Author: Eric Hernandez-Montenegro
+// Last Modified On: 12/10/2019
 
 *-------------------------------------------------------------------------------
-* This Do-File 
+* This Do-File serves the purpose for cleaning the data and preparing it 
+* for analysis.
+*-------------------------------------------------------------------------------
 
 // Load Demographic Data
 fdause https://wwwn.cdc.gov/Nchs/Nhanes/2015-2016/DEMO_I.XPT, clear
