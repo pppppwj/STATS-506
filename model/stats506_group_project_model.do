@@ -13,6 +13,7 @@
 * Lastly, we average the 10 lambdas to obtain a final lambda and use it 
 * in our final model.
 *-------------------------------------------------------------------------------
+log using model.log, text replace
 
 * Import Main Data Set
 use main_data_modified.dta, clear
@@ -135,3 +136,6 @@ lassologit diabetes gender age income energy_org-alcohol_alt, lambda(15.84241989
 predict pdiabetesfinal, pr
 roctab diabetes pdiabetesfinal, graph summary
 
+log close
+
+// End of Do-File.
