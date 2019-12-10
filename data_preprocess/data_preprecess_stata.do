@@ -26,11 +26,6 @@ drop if gender == .
 drop if age == .
 drop if income == .
 
-// Recode gender
-// Male - 1
-// Female - 0
-*replace gender = 0  if gender == 2
-
 // Recode by Age
 // 1 - Age 0-12
 // 2 - 12-18 Teenager
