@@ -371,15 +371,55 @@ summary {
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-</div>
-<div id="data" class="section level1">
-<h1>Data</h1>
+<p>Diabetes is a disease that occurs when your body doesn’t make or use the hormone insulin properly. In the past, doctors thought that only adults were at risk of developing type 2 diabetes. However, an increasing number of children in the United States are now being diagnosed with the disease. Doctors think this inrease is mostly because more children’s eating habbits are unhealthy. And also, as people paying more attention to their body health nowadays, it is interesting to consider the effect of health insurance on people’s eating habbits. Therefore, we purposed a question relevant to both eatting habbits, health insurance and diabetes situations. Our question is:</p>
+<p><strong>Do people’s eating habbits have the same effect on their diabetes status with or without health insurance?</strong></p>
+<p>To answer this question, we decide to first consider a bunch of diet elements in our analysis, and then use a penalized logistic model to help us select the important ones. In order to see whether the eating habbits’ effect is different after considering the insurance, we first create new dietary variables interacted with insurance and then implement in our model.<br />
+# Data</p>
 </div>
 <div id="methods" class="section level1">
 <h1>Methods</h1>
+<div id="logistic-regression-with-lasso-penalty" class="section level2">
+<h2>Logistic Regression with Lasso Penalty</h2>
+<p>Diabete is a binary variable. For binary classification problems, linear logistic regression model is most often used. Although logistic regression often performs comparably to competing methods, such as support vector machine and linear discriminant analysis, it is chosen in this problem because of its several advantages. The notable advantages include that: it provides a direct estimate of class probability; it tends to be more robust in the case <span class="math inline">\(k&gt;&gt;n\)</span> since it makes no assumptions on the distribution of the predictors; and it doesn’t need tuning parameters. The logistic regression model presents the class-conditional probabilities through a linear function of the predictors and is expressed as:</p>
+<p><span class="math display">\[log(\frac{p}{1-p})=\beta_0+\sum_{i=1}^k{x_i\beta_i}\]</span></p>
+<p>Logistic regression coefficients are typically estimated by maximizing the following binomial log-likelihood:</p>
+<p><span class="math display">\[\max_{\beta}\sum_{i=1}^n{\{y_i(x_i^T\beta)-\log(1+\exp(x_i^T\beta))\}}\]</span></p>
+<p>In order to select the variables and avoid overfitting, here we try to use logistic regression with lasso penalty. Now it becomes to be estimated by minimizing the following formula: <span class="math display">\[\min_{\beta}\{-\frac{1}{n}\sum_{i=1}^n{\{y_i(x_i^T\beta)-\log(1+\exp(x_i^T\beta))\}}+P_\lambda(\beta)\},P_\lambda(\beta)=\lambda\sum_{j=1}^k|\beta_j|\]</span></p>
 </div>
-<div id="core-analysis" class="section level1 tabset tabset-fade tabset-pills">
-<h1>Core Analysis</h1>
+<div id="roc-curve-and-auc" class="section level2">
+<h2>ROC curve and AUC</h2>
+<p>Because the data is unbalance. So we use AUC to judge our model.</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>P(true)</th>
+<th>N(true)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>P’(predicted)</td>
+<td>TP</td>
+<td>FP</td>
+</tr>
+<tr class="even">
+<td>N’(predicted)</td>
+<td>FN</td>
+<td>TN</td>
+</tr>
+</tbody>
+</table>
+<p>ROC curve: Y-axis is TPR=TP/(TP+FN) , X-axis is FPR=FP/(FP+TN).<br />
+AUC is value of area under ROC curve.<br />
+Several equivalent interpretations of AUC:<br />
+* The expectation that a uniformly drawn random positive is ranked before a uniformly drawn random negative.<br />
+* The expected proportion of positives ranked before a uniformly drawn random negative.<br />
+* The expected true positive rate if the ranking is split just before a uniformly drawn random negative.<br />
+* The expected proportion of negatives ranked after a uniformly drawn random positive.<br />
+* 1 – the expected false positive rate if the ranking is split just after a uniformly drawn random positive.<br />
+# Core Analysis {.tabset .tabset-fade .tabset-pills}</p>
+</div>
 <div id="r" class="section level2">
 <h2>R</h2>
 <div id="load-data" class="section level3">

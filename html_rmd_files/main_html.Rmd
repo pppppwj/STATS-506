@@ -16,6 +16,12 @@ library(ROCit)
 
 # Introduction
 
+Diabetes is a disease that occurs when your body doesn't make or use the hormone insulin properly. In the past, doctors thought that only adults were at risk of developing type 2 diabetes. However, an increasing number of children in the United States are now being diagnosed with the disease. Doctors think this inrease is mostly because more children's eating habbits are unhealthy. And also, as people paying more attention to their body health nowadays, it is interesting to consider the effect of health insurance on people's eating habbits.
+Therefore, we purposed a question relevant to both eatting habbits, health insurance and diabetes situations. Our question is:
+
+**Do people's eating habbits have the same effect on their diabetes status with or without health insurance?**
+
+To answer this question, we decide to first consider a bunch of diet elements in our analysis, and then use a penalized logistic model to help us select the important ones. In order to see whether the eating habbits' effect is different after considering the insurance, we first create new dietary variables interacted with insurance and then implement in our model.   
 # Data
 
 # Methods
