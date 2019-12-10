@@ -73,6 +73,14 @@ Several equivalent interpretations of AUC:
 * The expected proportion of negatives ranked after a uniformly drawn random positive.   
 * 1 – the expected false positive rate if the ranking is split just after a uniformly drawn random positive.   
 
+<style>
+pre {
+  white-space: pre !important;
+  overflow-y: scroll !important;
+  max-height: 40vh !important;
+}
+</style>
+
 # Core Analysis {.tabset .tabset-fade .tabset-pills}
 
 ## R
@@ -476,9 +484,9 @@ day12_demo_diabetes = day12_demo_diabetes.drop(["weight"],axis=1)
 
 ### Data visualization of VA VC and VE
 
-![](C:/Users/95260/Desktop/stats506/group_project/STATS-506\html_rmd_files/py_pic/Vitamin_A.png)
-![](C:/Users/95260/Desktop/stats506/group_project/STATS-506\html_rmd_files/py_pic/Vitamin_C.png)
-![](C:/Users/95260/Desktop/stats506/group_project/STATS-506\html_rmd_files/py_pic/Vitamin_E.png)
+![](./py_pic/Vitamin_A.png)
+![](./py_pic/Vitamin_C.png)
+![](./py_pic/Vitamin_E.png)
 
 As we can see from the above pictures, the intakes of vitamin A,C and E are almost the same in mostly group except for the group (teenage 13-18, male, with_ins) and the group (teenage 13-18, female, with_ins). It seems for me that vitamin A,C and E
 do NOT play important roles in this model. Teenage with diabetes can not eat too much sugar, which push them to eat more fruits or vegetables.   
@@ -543,7 +551,7 @@ coef = pd.Series(model.coef_[0,:], index = X_train.columns)
 plt.rcParams['figure.figsize'] = (8.0, 10.0)
 coef.sort_values().plot(kind="barh")
 ```
-![](C:/Users/95260/Desktop/stats506/group_project/STATS-506\html_rmd_files/py_pic/coef_sorted.png)
+![](./py_pic/coef_sorted.png)
 
 
 ```{python eval=FALSE}
@@ -585,7 +593,7 @@ plt.legend()
 plt.show()
 ```
 
-![](C:/Users/95260/Desktop/stats506/group_project/STATS-506\html_rmd_files/py_pic/roc_curve.png)
+![](./py_pic/roc_curve.png)
 
 ### Model Interpretation
 According to the final model we got above, we only remain 25 variables that are important chosen by lasso method.
