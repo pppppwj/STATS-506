@@ -483,7 +483,7 @@ day12_demo_diabetes = day12_demo_diabetes.drop(["weight"],axis=1)
 As we can see from the above pictures, the intakes of vitamin A,C and E are almost the same in mostly group except for the group (teenage 13-18, male, with_ins) and the group (teenage 13-18, female, with_ins). It seems for me that vitamin A,C and E
 do NOT play important roles in this model. Teenage with diabetes can not eat too much sugar, which push them to eat more fruits or vegetables.   
  
-### model
+### Model
 
 ```{python eval=FALSE}
 import pandas as pd
@@ -590,7 +590,7 @@ plt.show()
 ### Model Interpretation
 According to the final model we got above, we only remain 25 variables that are important chosen by lasso method.
 
-As we can see form the coef_sorted picture: 
+As we can see form the coef_sorted picture:   
 (1) The age plays an important role in the model. As people become older, they may take a greater risk to have a diabete. What interesting is that the income play a tricky role in this model. We can see at first when income increase, people have more risk to have a diabete. But after that as the imcome increase, people have lower risk to have a diabetes.   
 (2) For sugar predictor, the coefficients of the original one and the insurance interacted one are both negative, that means if a person has much sugar intake in his/her meal, then it may have less chance to be told that he/she has a diabetes issue.   
 (3) From the interaction terms, we can see sodium, iro, and fat are positive. And VC alcohol and VE are negative.
@@ -1178,6 +1178,15 @@ the lambda that minimizes the loss measure. This is due to a limitation in STATA
 that was encountered.
 
 # References
+Ying Zhu, Tuck Lee Tan, Wai Kwong Cheang,
+Penalized logistic regression for classification and feature selection with its application to detection of two official species of Ganoderma,
+Chemometrics and Intelligent Laboratory Systems,
+Volume 171,
+2017,
+Pages 55-64,
+ISSN 0169-7439,
+https://doi.org/10.1016/j.chemolab.2017.09.019.
+
 STATA:
 
 Luque-Fernandez MA, Redondo-Sanchez D, Maringe C. (2019). Cross-validated Area Under the Curve. GitHub repository, https://github.com/migariane/cvauroc
