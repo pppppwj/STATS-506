@@ -1,6 +1,7 @@
 // Group 1 Project - STATS 506
 // Program: STATA 
 // Author: Eric Hernandez-Montenegro
+// Last Modified On: 12/10/2019
 
 *-------------------------------------------------------------------------------
 * This Do-File contains code for running the model.
