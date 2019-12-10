@@ -8,6 +8,7 @@
 * for analysis.
 *-------------------------------------------------------------------------------
 
+version 16.0
 log using data_cleaning.log, text replace
 
 // Load Demographic Data

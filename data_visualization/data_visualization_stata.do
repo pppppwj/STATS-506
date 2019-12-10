@@ -8,6 +8,7 @@
 * It creates 16 bar graphs one for each group demonstrating their eating habits.
 *-------------------------------------------------------------------------------
 
+version 16.0
 log using data_visual, text replace
 
 
