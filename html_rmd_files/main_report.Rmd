@@ -1159,16 +1159,16 @@ gender, age, income, original sugars, alternative sugars, original fat, original
 People are less likely to have diabetes with the same amount of **sugar**, **vitamin a**, **calcium**, **zinc**, and **alcohol** consumption than those who do not have insurance.
 
 # Summary
-Common conclusions from the 3 final models we build:
+Common conclusions from the 3 final models we build:  
 (1) The final AUC values we get from 3 final models are approximately **0.85**, which means our model performances are all excellent!  
 (2) The **age predictors** all plays an important role in our models. As people become older, they may take on a greater risk to have a diabetes.  
 (3) Both the **original sugar predictors and the interacted one' s** coefficients are **negative**, that means if people take a lot of sugar in their meals, they may be less likely to have diabetes.  
 (4) People with higher **income** level tend to not have diabetes problems.  
 **(5) For the eating habits effect on people with or without health insurance:**
 
-**People with health insurance are more likely to have  a diabetes issue with the same amount sodium, iron, fat intakes than those without insurance;**    
+**People with health insurance are more likely to have a diabetes issue with the same amount sodium, iron, fat intakes than those without insurance;**    
 
-**People are less likely to have diabetes with the same amount of sugar, vitamin a, vitamin e, and alcohol consumption than those who do not have insurance.
+**People are less likely to have diabetes with the same amount of sugar, vitamin a, vitamin e, and alcohol consumption than those who do not have insurance.**
 
 # Discussion
 During Cross-Validation method of picking the optimal lambda,
@@ -1187,7 +1187,7 @@ Pages 55-64,
 ISSN 0169-7439,
 https://doi.org/10.1016/j.chemolab.2017.09.019.
 
-STATA:
+**STATA:**
 
 Luque-Fernandez MA, Redondo-Sanchez D, Maringe C. (2019). Cross-validated Area Under the Curve. GitHub repository, https://github.com/migariane/cvauroc
 
