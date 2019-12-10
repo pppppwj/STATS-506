@@ -8,6 +8,8 @@
 * for analysis.
 *-------------------------------------------------------------------------------
 
+log using data_cleaning.log, text replace
+
 // Load Demographic Data
 fdause https://wwwn.cdc.gov/Nchs/Nhanes/2015-2016/DEMO_I.XPT, clear
 
@@ -403,3 +405,7 @@ export delimited main_data_modified.csv, replace
 // List first three rows of data
 
 list if _n <= 3
+
+log close
+
+// End of Do-File.
