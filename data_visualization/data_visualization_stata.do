@@ -440,4 +440,4 @@ graph hbar fat_nd fat_d sugar_nd sugar_d carbohydrate_nd carbohydrate_d, by(age 
 
 log close
 
-// End of Do-File
+// End of Do-File.
