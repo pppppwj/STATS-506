@@ -476,9 +476,9 @@ day12_demo_diabetes = day12_demo_diabetes.drop(["weight"],axis=1)
 
 ### Data visualization of VA VC and VE
 
-![](/Users/weijiepan/Documents/GitHub/STATS-506/data_visualization/py_Graphs/Vitamin_A.png)
-![](/Users/weijiepan/Documents/GitHub/STATS-506/data_visualization/py_Graphs/Vitamin_C.png)
-![](/Users/weijiepan/Documents/GitHub/STATS-506/data_visualization/py_Graphs/Vitamin_E.png)
+![](C:/Users/95260/Desktop/stats506/group_project/STATS-506\html_rmd_files/py_pic/Vitamin_A.png)
+![](C:/Users/95260/Desktop/stats506/group_project/STATS-506\html_rmd_files/py_pic/Vitamin_C.png)
+![](C:/Users/95260/Desktop/stats506/group_project/STATS-506\html_rmd_files/py_pic/Vitamin_E.png)
 
 As we can see from the above pictures, the intakes of vitamin A,C and E are almost the same in mostly group except for the group (teenage 13-18, male, with_ins) and the group (teenage 13-18, female, with_ins). It seems for me that vitamin A,C and E
 do NOT play important roles in this model. Teenage with diabetes can not eat too much sugar, which push them to eat more fruits or vegetables.   
@@ -543,7 +543,7 @@ coef = pd.Series(model.coef_[0,:], index = X_train.columns)
 plt.rcParams['figure.figsize'] = (8.0, 10.0)
 coef.sort_values().plot(kind="barh")
 ```
-![](/Users/weijiepan/Desktop/506_project/pic/coef_sorted.png)
+![](C:/Users/95260/Desktop/stats506/group_project/STATS-506\html_rmd_files/py_pic/coef_sorted.png)
 
 
 ```{python eval=FALSE}
@@ -564,10 +564,9 @@ print('No Skill: ROC AUC=%.3f' % (ns_auc))
 print('Logistic: ROC AUC=%.3f' % (lr_auc))
 ```
 
-```{python echo=FALSE}
-print('''No Skill: ROC AUC=0.500
-Logistic: ROC AUC=0.849
-''')
+```{R echo=FALSE}
+print("No Skill: ROC AUC=0.500")
+print("Logistic: ROC AUC=0.849")
 ```
 
 ```{python eval=FALSE}
@@ -586,7 +585,7 @@ plt.legend()
 plt.show()
 ```
 
-![](/Users/weijiepan/Desktop/506_project/pic/roc_curve.png)
+![](C:/Users/95260/Desktop/stats506/group_project/STATS-506\html_rmd_files/py_pic/roc_curve.png)
 
 ### Model Interpretation
 According to the final model we got above, we only remain 25 variables that are important chosen by lasso method.
@@ -1066,29 +1065,61 @@ roctab diabetes pdiabetes10, graph summary
 
 ![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary1.PNG?raw=true    )
 
+
 **Figure 5: Summary for ROC curve for model with lambda  = 8.6141729**
+
 
 ![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary2.PNG?raw=true    )
 
+
 **Figure 6: Summary for ROC curve for model with lambda = 15.424845 **
+
 ![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary3.PNG?raw=true    )
+
+
 **Figure 7: Summary for ROC curve for model with lambda = 13.24682 **
+
+
 ![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary4.PNG?raw=true    )
+
+
 **Figure 8: Summary for ROC curve for model with lambda = 13.310124 **
+
+
 ![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary5.PNG?raw=true   )
+
+
 **Figure 9: Summary for ROC curve for model with lambda = 17.646587 **
+
+
 ![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary6.PNG?raw=true    )
+
+
 **Figure 10: Summary for ROC curve for model with lambda = 17.67645 **
+
+
 ![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary7.PNG?raw=true    )
+
+
 **Figure 11: Summary for ROC curve for model with lambda = 18.184071**
+
 
 ![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary8.PNG?raw=true    )
 
 **Figure 12: Summary for ROC curve for model with lambda = 11.675487 **
+
+
 ![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary9.PNG?raw=true    )
+
 **Figure 13: Summary for ROC curve for model with lambda = 27.217884 **
+
+
 ![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summary10.PNG?raw=true    )
+
+
 **Figure 14: Summary for ROC curve for model with lambda = 15.427758 **
+
+
 Taking the average of the ten optimal lambdas we obtain: 15.8424198, which we use on the final model. We then obtain coefficients for the final model.
 ```{r, eval = FALSE}
 * Fit final model with average lambda
@@ -1101,15 +1132,19 @@ roctab diabetes pdiabetesfinal, graph summary
 ```
 ![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/coef_final.PNG?raw=true 
 "Coefficients for Final Model")
+
+
 **Figure 15:** Coefficients for Final Model
 
 
 ![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/summaryfinal.PNG?raw=true "Summary for ROC curve for Final Model")
 
+
 **Figure 16:** Summary for ROC curve for Final Model
 
 
 ![](https://github.com/pppppwj/STATS-506/blob/master/model/STATA_Model/rocfinal.png?raw=true "ROC Curve for Final Model")
+
 
 **Figure 17:** ROC Curve for Final Model
 
@@ -1120,9 +1155,6 @@ roctab diabetes pdiabetesfinal, graph summary
 
 The LASSO Cross-Validation selected ten lambdas and the ten were averaged to find the lambda that will be used for the final model. Using LASSO logistic regression with a lambda of 15.84241989, we narrowed (shrunk) down our variables. The variables that were selected were:
 gender, age, income, original sugars, alternative sugars, original fat, original vitamin e, alternative vitamin a, original vitamin c, original calcium, alternative calcium, orginal iron, original zinc, alternative zinc, original sodium, original alcohol, and alternative alcohol. The area under the ROC curve was found to be 0.8508, which tells us that the model performs well. We see that eating habits do in fact differ. We can see that the original sugars variable has a negative effect, thus we can say that people who have insurance are more likely not going to be told they have diabetes. Assessing the fat variable we can say that more fat consumption with insurance leads to a doctor telling an individual that they have diabetes. Similarly with Vitamin E consumption, with insurance, the chance of being told by a doctor that they have diabetes becomes smaller as they consume more. Similar interpretations can be done with the remaining variables. In addition, we can observe what our demographic variables tell us. For example, we see that people with a higher income are less likely to be told by their doctors that they have diabetes.
-
-
-### Results
 
 # Summary
 
