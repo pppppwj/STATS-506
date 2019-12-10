@@ -29,3 +29,16 @@ Now it becomes to be estimated by minimizing the following formula:
 
 Because the data is unbalance. So we use AUC to judge our model.
 
+|  | P(true) |  N(true)|
+| --------- | ---- | :-------: |
+| P'(predicted) |TP|FP| 
+| N'(predicted) |FN |TN | 
+
+ROC curve: Y-axis is TPR=TP/(TP+FN) , X-axis is FPR=FP/(FP+TN).   
+AUC is value of area under ROC curve.  
+* The expectation that a uniformly drawn random positive is ranked before a uniformly drawn random negative.
+* The expected proportion of positives ranked before a uniformly drawn random negative.
+* The expected true positive rate if the ranking is split just before a uniformly drawn random negative.
+* The expected proportion of negatives ranked after a uniformly drawn random positive.
+* 1 – the expected false positive rate if the ranking is split just after a uniformly drawn random positive.
+
