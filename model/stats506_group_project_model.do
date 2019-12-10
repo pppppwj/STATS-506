@@ -18,7 +18,6 @@ use "I:\stats506_group_project\main_data_modified.dta"
 
 *-------------------------------------------------------------------------------
 * Create 10 Training and 10 Test Data Sets
-* Store optimal lambdas and BICs of each
 * Build Training Data - 80 % of Main Data Set
 * Build Test Data - 20 % of Main Data Set
 * Key:
