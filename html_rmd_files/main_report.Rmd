@@ -17,8 +17,7 @@ library(glmnet)
 library(ROCit)
 ```
 
-# Introduction
-
+# <span id="jump">Introduction</span>
 Diabetes is a disease that occurs when your body doesn't make or use the hormone insulin properly. In the past, doctors thought that only adults were at risk of developing type 2 diabetes. However, an increasing number of children in the United States are now being diagnosed with the disease. Doctors think this inrease is mostly because more children's eating habbits are unhealthy. And also, as people paying more attention to their body health nowadays, it is interesting to consider the effect of health insurance on people's eating habbits.
 Therefore, we purposed a question relevant to both eatting habbits, health insurance and diabetes situations. Our question is:
 
@@ -393,9 +392,9 @@ And then we can see that:
 People with health insurance are **more likely** to have diabetes issue with same amount **sodium, iron, fat** intakes than those without insurance;  
 And they are **less likely** to have diabetes issue with same amoount **VC, VE, sugar, alcohol, protein** intakes than those without insurance.
 
+[***<span style="color:red;">(Back to top)</span>***](#jump)
 
-
-## python
+## Python
 
 ### data preprocess
 ```{python eval=FALSE}
@@ -606,8 +605,7 @@ As we can see form the coef_sorted picture:
 People with health insurance are **more likely** to have diabetes issue with same amount **sodium, iron, fat** intakes than those without insurance;  
 And they are **less likely** to have diabetes issue with same amoount **VE, alcohol, VA** intakes than those without insurance.
 
-
-
+[***<span style="color:red;">(Back to top)</span>***](#jump)
 
 ## STATA
 
@@ -1159,12 +1157,14 @@ roctab diabetes pdiabetesfinal, graph summary
 
 
 
-### Results
+### Model Interpretation
 
 The LASSO Cross-Validation selected ten lambdas and the ten were averaged to find the lambda that will be used for the final model. Using LASSO logistic regression with a lambda of 15.84241989, we narrowed (shrunk) down our variables. The variables that were selected were:
 gender, age, income, original sugars, alternative sugars, original fat, original vitamin e, alternative vitamin a, original vitamin c, original calcium, alternative calcium, orginal iron, original zinc, alternative zinc, original sodium, original alcohol, and alternative alcohol. The area under the ROC curve was found to be 0.8508, which tells us that the model performs well. We see that eating habits do in fact differ. We can see that the original sugars variable has a negative effect, thus we can say that people who have insurance are more likely not going to be told they have diabetes. Assessing the fat variable we can say that more fat consumption with insurance leads to a doctor telling an individual that they have diabetes. Similarly with Vitamin E consumption, with insurance, the chance of being told by a doctor that they have diabetes becomes smaller as they consume more. Similar interpretations can be done with the remaining variables. In addition, we can observe what our demographic variables tell us. For example, we see that people with a higher income are less likely to be told by their doctors that they have diabetes.
 
 People are less likely to have diabetes with the same amount of **sugar**, **vitamin a**, **calcium**, **zinc**, and **alcohol** consumption than those who do not have insurance.
+
+[***<span style="color:red;">(Back to top)</span>***](#jump)
 
 # Summary
 Common conclusions from the 3 final models we build:  
@@ -1186,6 +1186,7 @@ the lambda that minimizes the loss measure. This is due to a limitation in STATA
 that was encountered.
 
 # References
+**Methods:**  
 Ying Zhu, Tuck Lee Tan, Wai Kwong Cheang,
 Penalized logistic regression for classification and feature selection with its application to detection of two official species of Ganoderma,
 Chemometrics and Intelligent Laboratory Systems,
@@ -1201,3 +1202,6 @@ Luque-Fernandez MA, Redondo-Sanchez D, Maringe C. (2019). Cross-validated Area U
 
 Ahrens, A., Hansen, C.B., Schaffer, M.E. 2019.  lassologit: Stata module for logistic lasso regression.
         http://ideas.repec.org/c/boc/bocode/XXXXX.html
+        
+        
+[***<span style="color:red;">(Back to top)</span>***](#jump)
