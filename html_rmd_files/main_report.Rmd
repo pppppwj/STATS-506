@@ -18,12 +18,12 @@ library(ROCit)
 ```
 
 # <span id="jump">Introduction</span>
-Diabetes is a disease that occurs when your body doesn't make or use the hormone insulin properly. In the past, doctors thought that only adults were at risk of developing type 2 diabetes. However, an increasing number of children in the United States are now being diagnosed with the disease. Doctors think this inrease is mostly because more children's eating habbits are unhealthy. And also, as people paying more attention to their body health nowadays, it is interesting to consider the effect of health insurance on people's eating habbits.
-Therefore, we purposed a question relevant to both eatting habbits, health insurance and diabetes situations. Our question is:
+Diabetes is a disease that occurs when your body doesn't make or use the hormone insulin properly. In the past, doctors thought that only adults were at risk for developing type 2 diabetes. However, an increasing number of children in the United States are now being diagnosed with the disease. Doctors think this increase is mostly because more children's eating habits are unhealthy. Also, as people are paying more attention to their body health nowadays, it is interesting to consider the effect of health insurance on people's eating habbits.
+Therefore, we proposed a question relevant to eating habits, health insurance and diabetes situations. Our question is:
 
-**Do people's eating habbits have the same effect on their diabetes status with or without health insurance?**
+**Do people's eating habits have the same effect on their diabetes status with or without health insurance?**
 
-To answer this question, we decide to first consider a bunch of diet elements in our analysis, and then use a penalized logistic model to help us select the important ones. In order to see whether the eating habbits' effect is different after considering the insurance, we first create new dietary variables interacted with insurance and then implement in our model.   
+To answer this question, we decide to first consider a bunch of diet elements in our analysis, and then use a penalized logistic model to help us select the important ones. In order to see whether the eating habits effect is different after considering the insurance, we first create new dietary variables interacted with insurance and then implement in our model.   
 
 # Data
 
@@ -34,7 +34,7 @@ Iron, Calcium, Zinc, Sodium, Vitamin E, Vitamin A, Alcohol, Vitamin C, Total fat
 # Methods
 **Logistic Regression with Lasso Penalty**
 
-Diabete is a binary variable. For binary classification problems, linear logistic regression model is most often used. 
+Diabetes is a binary variable. For binary classification problems, linear logistic regression model is most often used. 
 Although logistic regression often performs comparably to competing methods, such as support vector machine and linear 
 discriminant analysis, it is chosen in this problem because of its several advantages. The notable advantages include 
 that: it provides a direct estimate of class probability; it tends to be more robust in the case $k>>n$
@@ -55,7 +55,7 @@ $$\min_{\beta}\{-\frac{1}{n}\sum_{i=1}^n{\{y_i(x_i^T\beta)-\log(1+\exp(x_i^T\bet
 
 **ROC curve and AUC**
 
-Because the data is unbalance. So we use AUC to judge our model.
+Because the data is unbalanced. So we use AUC to judge our model.
 
 |  | P(true) |  N(true)|
 | ---- | ---- | ----- |
