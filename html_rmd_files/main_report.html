@@ -414,9 +414,9 @@ summary {
 
 <div id="introduction" class="section level1">
 <h1><span id="jump">Introduction</span></h1>
-<p>Diabetes is a disease that occurs when your body doesn’t make or use the hormone insulin properly. In the past, doctors thought that only adults were at risk of developing type 2 diabetes. However, an increasing number of children in the United States are now being diagnosed with the disease. Doctors think this inrease is mostly because more children’s eating habbits are unhealthy. And also, as people paying more attention to their body health nowadays, it is interesting to consider the effect of health insurance on people’s eating habbits. Therefore, we purposed a question relevant to both eatting habbits, health insurance and diabetes situations. Our question is:</p>
-<p><strong>Do people’s eating habbits have the same effect on their diabetes status with or without health insurance?</strong></p>
-<p>To answer this question, we decide to first consider a bunch of diet elements in our analysis, and then use a penalized logistic model to help us select the important ones. In order to see whether the eating habbits’ effect is different after considering the insurance, we first create new dietary variables interacted with insurance and then implement in our model.</p>
+<p>Diabetes is a disease that occurs when your body doesn’t make or use the hormone insulin properly. In the past, doctors thought that only adults were at risk for developing type 2 diabetes. However, an increasing number of children in the United States are now being diagnosed with the disease. Doctors think this increase is mostly because more children’s eating habits are unhealthy. Also, as people are paying more attention to their body health nowadays, it is interesting to consider the effect of health insurance on people’s eating habbits. Therefore, we proposed a question relevant to eating habits, health insurance and diabetes situations. Our question is:</p>
+<p><strong>Do people’s eating habits have the same effect on their diabetes status with or without health insurance?</strong></p>
+<p>To answer this question, we decide to first consider a bunch of diet elements in our analysis, and then use a penalized logistic model to help us select the important ones. In order to see whether the eating habits effect is different after considering the insurance, we first create new dietary variables interacted with insurance and then implement in our model.</p>
 </div>
 <div id="data" class="section level1">
 <h1>Data</h1>
@@ -425,13 +425,13 @@ summary {
 <div id="methods" class="section level1">
 <h1>Methods</h1>
 <p><strong>Logistic Regression with Lasso Penalty</strong></p>
-<p>Diabete is a binary variable. For binary classification problems, linear logistic regression model is most often used. Although logistic regression often performs comparably to competing methods, such as support vector machine and linear discriminant analysis, it is chosen in this problem because of its several advantages. The notable advantages include that: it provides a direct estimate of class probability; it tends to be more robust in the case <span class="math inline">\(k&gt;&gt;n\)</span> since it makes no assumptions on the distribution of the predictors; and it doesn’t need tuning parameters. The logistic regression model presents the class-conditional probabilities through a linear function of the predictors and is expressed as:</p>
+<p>Diabetes is a binary variable. For binary classification problems, linear logistic regression model is most often used. Although logistic regression often performs comparably to competing methods, such as support vector machine and linear discriminant analysis, it is chosen in this problem because of its several advantages. The notable advantages include that: it provides a direct estimate of class probability; it tends to be more robust in the case <span class="math inline">\(k&gt;&gt;n\)</span> since it makes no assumptions on the distribution of the predictors; and it doesn’t need tuning parameters. The logistic regression model presents the class-conditional probabilities through a linear function of the predictors and is expressed as:</p>
 <p><span class="math display">\[log(\frac{p}{1-p})=\beta_0+\sum_{i=1}^k{x_i\beta_i}\]</span></p>
 <p>Logistic regression coefficients are typically estimated by maximizing the following binomial log-likelihood:</p>
 <p><span class="math display">\[\max_{\beta}\sum_{i=1}^n{\{y_i(x_i^T\beta)-\log(1+\exp(x_i^T\beta))\}}\]</span></p>
 <p>In order to select the variables and avoid overfitting, here we try to use logistic regression with lasso penalty. Now it becomes to be estimated by minimizing the following formula: <span class="math display">\[\min_{\beta}\{-\frac{1}{n}\sum_{i=1}^n{\{y_i(x_i^T\beta)-\log(1+\exp(x_i^T\beta))\}}+P_\lambda(\beta)\},P_\lambda(\beta)=\lambda\sum_{j=1}^k|\beta_j|\]</span></p>
 <p><strong>ROC curve and AUC</strong></p>
-<p>Because the data is unbalance. So we use AUC to judge our model.</p>
+<p>Because the data is unbalanced. So we use AUC to judge our model.</p>
 <table>
 <thead>
 <tr class="header">
